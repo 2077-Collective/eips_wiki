@@ -1,0 +1,357 @@
+---
+title: Execution Layer upgrades
+description: Execution Layer upgrades
+---
+
+Execution Layer Upgrades focus on improvements and changes to the components responsible for executing transactions and smart contracts on the Ethereum blockchain. These upgrades include enhancements to the Ethereum Virtual Machine (EVM), fee markets, state management, and data availability. Each area represents a critical aspect of Ethereum's functionality, ensuring efficient transaction processing, optimal fee structures, effective management of blockchain states, and reliable access to necessary data.
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<details>
+    <summary>Ethereum Virtual Machine (EVM)</summary>
+
+    <Tabs syncKey="evm">
+        <TabItem label="Architecture">
+            ##### General EVM architecture upgrades
+            [EIP-5: Gas Usage for](https://eips.ethereum.org/EIPS/eip-5) [RETURN](https://eips.ethereum.org/EIPS/eip-5) [and](https://eips.ethereum.org/EIPS/eip-5) [CALL](https://eips.ethereum.org/EIPS/eip-5)
+
+            [EIP-170: Contract code size limit](https://eips.ethereum.org/EIPS/eip-170)
+
+            [EIP-616: SIMD Operations for the EVM](https://eips.ethereum.org/EIPS/eip-616)
+
+            [EIP-684: Revert creation in case of collision](https://eips.ethereum.org/EIPS/eip-684)
+
+            [EIP-1352: Specify restricted address range for precompiles/system contracts Authors Alex](https://eips.ethereum.org/EIPS/eip-1352)
+
+            [EIP-1706: Disable SSTORE with gasleft lower than call stipend](https://eips.ethereum.org/EIPS/eip-1706)
+
+            [EIP-658: Embedding transaction status code in receipts](https://eips.ethereum.org/EIPS/eip-658)
+
+            [EIP-2681: Limit account nonce to 2^64](https://eips.ethereum.org/EIPS/eip-2681)\-1
+
+            [EIP-2926: Chunk-Based Code Merkleization](https://eips.ethereum.org/EIPS/eip-2926)
+
+            [EIP-3338: Limit account nonce to 2^52](https://eips.ethereum.org/EIPS/eip-3338)
+
+            [EIP-3541: Reject new contract code starting with the 0xEF byte](https://eips.ethereum.org/EIPS/eip-3541)
+
+            [EIP-3607: Reject transactions from senders with deployed code](https://eips.ethereum.org/EIPS/eip-3607)
+
+            [EIP-3779: Safer Control Flow for the EVM](https://eips.ethereum.org/EIPS/eip-3779)
+
+            [EIP-3860: Limit and meter initcode](https://eips.ethereum.org/EIPS/eip-3860)
+
+            [EIP-4758: Deactivate SELFDESTRUCT](https://eips.ethereum.org/EIPS/eip-4758)
+
+            [EIP-5027: Remove the limit on contract code size](https://eips.ethereum.org/EIPS/eip-5027)
+
+            [EIP-6046: Replace SELFDESTRUCT with DEACTIVATE](https://eips.ethereum.org/EIPS/eip-6046)
+
+            [EIP-6049: Deprecate SELFDESTRUCT](https://eips.ethereum.org/EIPS/eip-6049)
+
+            [EIP-6780: SELFDESTRUCT only in same transaction](https://eips.ethereum.org/EIPS/eip-6780)
+
+            [EIP-6189: Alias Contracts](https://eips.ethereum.org/EIPS/eip-6189)
+
+            [EIP-6190: Verkle-compatible SELFDESTRUCT](https://eips.ethereum.org/EIPS/eip-6190)
+
+            [EIP-6888: Math checking in EVM](https://eips.ethereum.org/EIPS/eip-6888)
+
+            [EIP-7266: Remove BLAKE2 compression precompile](https://eips.ethereum.org/EIPS/eip-7266)
+
+            [EIP-7523: Empty accounts deprecation](https://eips.ethereum.org/EIPS/eip-7523)
+
+            ##### EVM Object Format (EOF)
+
+            [EIP-3690: EOF - JUMPDEST Table](https://eips.ethereum.org/EIPS/eip-3690)
+
+            [EIP-3670: EOF – Code Validation](https://eips.ethereum.org/EIPS/eip-3670)
+
+            [EIP-3540: EOF – EVM Object Format v1](https://eips.ethereum.org/EIPS/eip-3540)
+
+            [EIP-4750: EOF – Functions](https://eips.ethereum.org/EIPS/eip-4750)
+
+            [EIP-5450: EOF – Stack Validation](https://eips.ethereum.org/EIPS/eip-5450)
+
+            [EIP-6206: EOF – JUMPF and non-returning functions](https://eips.ethereum.org/EIPS/eip-6206)
+
+            [EIP-7480: EOF – Data section access instructions](https://eips.ethereum.org/EIPS/eip-7480)
+
+            [EIP-7620: EOF – Contract Creation](https://eips.ethereum.org/EIPS/eip-7620)
+
+            ##### Simple Serialize (SSZ)
+
+            [EIP-6404: SSZ Transactions Root](https://eips.ethereum.org/EIPS/eip-6404)
+
+            [EIP-6465: SSZ Withdrawals Root](https://eips.ethereum.org/EIPS/eip-6465)
+
+            [EIP-6466: SSZ Receipts Root](https://eips.ethereum.org/EIPS/eip-6466)
+
+            [EIP-6493: SSZ Transaction Signature Scheme](https://eips.ethereum.org/EIPS/eip-6493)
+
+            [EIP-7495: SSZ StableContainer](https://eips.ethereum.org/EIPS/eip-7495)
+
+            [EIP-6475: SSZ Optional](https://eips.ethereum.org/EIPS/eip-6475)
+        </TabItem>
+
+        <TabItem label="Opcodes">
+            [EIP-3: Addition of CALLDEPTH opcode](https://eips.ethereum.org/EIPS/eip-3)
+
+            [EIP-7: DELEGATECALL](https://eips.ethereum.org/EIPS/eip-7)
+
+            [EIP-140: REVERT instruction](https://eips.ethereum.org/EIPS/eip-140)
+
+            [EIP-141: Designated invalid EVM instruction](https://eips.ethereum.org/EIPS/eip-141)
+
+            [EIP-145: Bitwise shifting instructions in EVM](https://eips.ethereum.org/EIPS/eip-145)
+
+            [EIP-211: RETURNDATASIZE and RETURNDATACOPY opcodes](https://eips.ethereum.org/EIPS/eip-211)
+
+            [EIP-214: STATICCALL opcode](https://eips.ethereum.org/EIPS/eip-214)
+
+            [EIP-698: OPCODE 0x46 BLOCKREWARD](https://eips.ethereum.org/EIPS/eip-698)
+
+            [EIP-1014: Skinny CREATE2](https://eips.ethereum.org/EIPS/eip-1014)
+
+            [EIP-1052: EXTCODEHASH opcode](https://eips.ethereum.org/EIPS/eip-1052)
+
+            [EIP-1109: PRECOMPILEDCALL opcode (Remove CALL costs for precompiled contracts](https://eips.ethereum.org/EIPS/eip-1109))
+
+            [EIP-1153: Transient storage opcodes](https://eips.ethereum.org/EIPS/eip-1153)
+
+            [EIP-1344: ChainID opcode](https://eips.ethereum.org/EIPS/eip-1344)
+
+            [EIP-1959: New Opcode to check if a chainID is part of the history of chainIDs](https://eips.ethereum.org/EIPS/eip-1959)
+
+            [EIP-2315: Simple Subroutines for the EVM](https://eips.ethereum.org/EIPS/eip-2315)
+
+            [EIP-2330: EXTSLOAD opcode](https://eips.ethereum.org/EIPS/eip-2330)
+
+            [EIP-2542: New opcodes TXGASLIMIT and CALLGASLIMIT](https://eips.ethereum.org/EIPS/eip-2542)
+
+            [EIP-2327: BEGINDATA opcode](https://eips.ethereum.org/EIPS/eip-2327)
+
+            [EIP-2936: EXTCLEAR Opcode For SELFDESTRUCTed contracts](https://eips.ethereum.org/EIPS/eip-2936)
+
+            [EIP-2937: SET\_INDESTRUCTIBLE opcode](https://eips.ethereum.org/EIPS/eip-2937)
+
+            [EIP-2970: IS\_STATIC opcode](https://eips.ethereum.org/EIPS/eip-2970)
+
+            [EIP-2997: IMPERSONATECALL Opcode](https://eips.ethereum.org/EIPS/eip-2997)
+
+            [EIP-3074: AUTH and AUTHCALL opcodes](https://eips.ethereum.org/EIPS/eip-3074)
+
+            [EIP-3198: BASEFEE opcode](https://eips.ethereum.org/EIPS/eip-3198)
+
+            [EIP-3322: Account gas storage opcodes](https://eips.ethereum.org/EIPS/eip-3322)
+
+            [EIP-3332: MEDGASPRICE Opcode](https://eips.ethereum.org/EIPS/eip-3332)
+
+            [EIP-3455: SUDO Opcode](https://eips.ethereum.org/EIPS/eip-3455)
+
+            [EIP-3508: Transaction Data Opcodes](https://eips.ethereum.org/EIPS/eip-3508)
+
+            [EIP-3520: Transaction Destination Opcode](https://eips.ethereum.org/EIPS/eip-3520)
+
+            [EIP-3855: PUSH0 instruction](https://eips.ethereum.org/EIPS/eip-3855)
+
+            [EIP-4399: Supplant DIFFICULTY opcode with PREVRANDAO](https://eips.ethereum.org/EIPS/eip-4399)
+
+            [EIP-4520: Multi-byte opcodes prefixed by EB and EC](https://eips.ethereum.org/EIPS/eip-4520)
+
+            [EIP-4573: Procedures for the EVM](https://eips.ethereum.org/EIPS/eip-4573)
+
+            [EIP-5000: MULDIV instruction](https://eips.ethereum.org/EIPS/eip-5000)
+
+            [EIP-5478: CREATE2COPY Opcode](https://eips.ethereum.org/EIPS/eip-5478)
+
+            [EIP-5656: MCOPY – Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656)
+
+            [EIP-5065: Instruction for transferring ether](https://eips.ethereum.org/EIPS/eip-5065)
+
+            [EIP-5920: PAY opcode](https://eips.ethereum.org/EIPS/eip-5920)
+
+            [EIP-6690: EVM Modular Arithmetic Extensions (EVMMAX)](https://eips.ethereum.org/EIPS/eip-6690)
+
+            [EIP-6913: SETCODE instruction](https://eips.ethereum.org/EIPS/eip-6913)
+
+            [EIP-7069: Revamped CALL instructions](https://eips.ethereum.org/EIPS/eip-7069)
+
+            [EIP-7516: BLOBBASEFEE instruction](https://eips.ethereum.org/EIPS/eip-7516)
+
+            [EIP-7519: Atomic Storage Operations – SCREDIT and SDEBIT](https://eips.ethereum.org/EIPS/eip-7519)
+        </TabItem>
+
+        <TabItem label="Precompiles">
+            [EIP-152: Add BLAKE2 compression function](https://eips.ethereum.org/EIPS/eip-152) [F](https://eips.ethereum.org/EIPS/eip-152) [precompile](https://eips.ethereum.org/EIPS/eip-152)
+
+            [EIP-196: Precompiled contracts for addition and scalar multiplication on the elliptic curve alt\_bn128](https://eips.ethereum.org/EIPS/eip-196)
+
+            [EIP-197: Precompiled contracts for optimal ate pairing check on the elliptic curve alt\_bn128](https://eips.ethereum.org/EIPS/eip-197)
+
+            [EIP-198: Big integer modular exponentiation](https://eips.ethereum.org/EIPS/eip-198)
+
+            [EIP-1829: Precompile for Elliptic Curve Linear Combinations](https://eips.ethereum.org/EIPS/eip-1829)
+
+            [EIP-1895: Support for an Elliptic Curve Cycle](https://eips.ethereum.org/EIPS/eip-1895)
+
+            [EIP-1962: EC arithmetic and pairings with runtime definitions](https://eips.ethereum.org/EIPS/eip-1962)
+
+            [EIP-1965: Method to check if a chainID is valid at a specific block Number](https://eips.ethereum.org/EIPS/eip-1965)
+
+            [EIP-2014: Extended State Oracle](https://eips.ethereum.org/EIPS/eip-2014)
+
+            [EIP-2539: BLS12-377 curve operations](https://eips.ethereum.org/EIPS/eip-2539)
+
+            [EIP-3026: BW6-761 curve operations](https://eips.ethereum.org/EIPS/eip-3026)
+
+            [EIP-4788: Beacon block root in the EVM](https://eips.ethereum.org/EIPS/eip-4788)
+
+            [EIP-5988: Add Poseidon hash function precompile](https://eips.ethereum.org/EIPS/eip-5988)
+
+            [EIP-7212: Precompile for secp256r1 Curve Support](https://eips.ethereum.org/EIPS/eip-7212)
+
+            [EIP-7545: Verkle proof verification precompile](https://eips.ethereum.org/EIPS/eip-7545)
+        </TabItem>
+
+        <TabItem label="Transaction types">
+            [EIP-2474: Coinbase calls](https://eips.ethereum.org/EIPS/eip-2474)
+
+            [EIP-2718: Typed Transaction Envelope](https://eips.ethereum.org/EIPS/eip-2718)
+
+            [EIP-2711: Sponsored, expiring and batch transactions](https://eips.ethereum.org/EIPS/eip-2711)
+
+            [EIP-2733: Transaction Package](https://eips.ethereum.org/EIPS/eip-2733)
+
+            [EIP-2803: Rich Transactions](https://eips.ethereum.org/EIPS/eip-2803)
+
+            [EIP-2930: Optional access lists](https://eips.ethereum.org/EIPS/eip-2930)
+
+            [EIP-2938: Account Abstraction](https://eips.ethereum.org/EIPS/eip-2938)
+
+            [EIP-2972: Wrapped Legacy Transactions](https://eips.ethereum.org/EIPS/eip-2972)
+
+            [EIP-3534: Restricted Chain Context Type Transactions](https://eips.ethereum.org/EIPS/eip-3534)
+
+            [EIP-5081: Expirable Transaction](https://eips.ethereum.org/EIPS/eip-5081)
+
+            [EIP-5806: Delegate transaction](https://eips.ethereum.org/EIPS/eip-5806)
+
+            [EIP-7377: Migration Transaction](https://eips.ethereum.org/EIPS/eip-7377)
+        </TabItem>
+    </Tabs>
+</details>
+
+<details>
+    <summary>Fee Markets</summary>
+
+    <Tabs syncKey="evm">
+        <TabItem label="General fee market">
+            [EIP-1559: Fee market change for ETH 1.0 chain](https://eips.ethereum.org/EIPS/eip-1559)
+
+            [EIP-2593: Escalator fee market change for ETH 1.0 chain](https://eips.ethereum.org/EIPS/eip-2593)
+
+            [EIP-2200: Structured Definitions for Net Gas Metering](https://eips.ethereum.org/EIPS/eip-2200)
+
+            [EIP-2045: Particle gas costs for EVM opcodes](https://eips.ethereum.org/EIPS/eip-2045)
+
+            [EIP-2583: Penalty for account trie misses](https://eips.ethereum.org/EIPS/eip-2584)
+
+            [EIP-2666: Repricing of precompiles and Keccak256 function](https://eips.ethereum.org/EIPS/eip-2666)
+
+            [EIP-3403: Partial removal of refunds](https://eips.ethereum.org/EIPS/eip-3403)
+
+            [EIP-3416: Median Gas Premium](https://eips.ethereum.org/EIPS/eip-3416)
+
+            [EIP-3529: Reduction in refunds](https://eips.ethereum.org/EIPS/eip-3529)
+
+            [EIP-3978: Gas refunds on reverts](https://eips.ethereum.org/EIPS/eip-3978)
+
+            [EIP-7378: Add time-weighted averaging to the base fee](https://eips.ethereum.org/EIPS/eip-7378)
+        </TabItem>
+
+        <TabItem label="Gas cost increase">
+            [EIP-150: Gas cost changes for IO-heavy operations](https://eips.ethereum.org/EIPS/eip-150)
+
+            [EIP-160: EXP cost increase](https://eips.ethereum.org/EIPS/eip-160)
+
+            [EIP-1884: Repricing for trie-size-dependent opcodes](https://eips.ethereum.org/EIPS/eip-1884)
+
+            [EIP-2035: Stateless Clients – Repricing SLOAD and SSTORE to pay for block proofs](https://eips.ethereum.org/EIPS/eip-2035)
+
+            [EIP-2583: Penalty for account trie misses](https://eips.ethereum.org/EIPS/eip-2583)
+
+            [EIP-2929: Gas cost increases for state access opcodes](https://eips.ethereum.org/EIPS/eip-2929)
+
+            [EIP-5022: Increase price of SSTORE from zero to non-zero to 40k gas](https://eips.ethereum.org/EIPS/eip-5022)
+
+            [EIP-7623: Increase calldata cost](https://eips.ethereum.org/EIPS/eip-7623)
+        </TabItem>
+
+        <TabItem label="Gas cost decrease">
+            [EIP-1108: Reduce alt\_bn128 precompile gas costs](https://eips.ethereum.org/EIPS/eip-1108)
+
+            [EIP-1283: Net gas metering for SSTORE without dirty maps](https://eips.ethereum.org/EIPS/eip-1283)
+
+            [EIP-1380: Reduced gas cost for call to self](https://eips.ethereum.org/EIPS/eip-1380)
+
+            [EIP-2046: Reduced gas cost for static calls made to precompiles](https://eips.ethereum.org/EIPS/eip-2046)
+
+            [EIP-2028: Transaction data gas cost reduction](https://eips.ethereum.org/EIPS/eip-2028)
+
+            [EIP-2565: ModExp Gas Cost](https://eips.ethereum.org/EIPS/eip-2565)
+
+            [EIP-2780: Reduce intrinsic transaction gas](https://eips.ethereum.org/EIPS/eip-2780)
+
+            [EIP-3521: Reduce access list cost](https://eips.ethereum.org/EIPS/eip-3521)
+
+            [EIP-3651: Warm COINBASE](https://eips.ethereum.org/EIPS/eip-3651)
+
+            [EIP-7609: Decrease base cost of TLOAD/TSTORE](https://eips.ethereum.org/EIPS/eip-7609)
+        </TabItem>
+    </Tabs>
+</details>
+
+<details>
+    <summary>State management</summary>
+
+    [EIP-158: State trie clearing](https://eips.ethereum.org/EIPS/eip-158)
+
+    [EIP-161: State trie clearing (invariant-preserving alternative)](https://eips.ethereum.org/EIPS/eip-161)
+
+    [EIP-1418: Blockchain Storage Rent Payment](https://eips.ethereum.org/EIPS/eip-1418)
+
+    [EIP-2026: State Rent H – Fixed Prepayment for accounts](https://eips.ethereum.org/EIPS/eip-2026)
+
+    [EIP-2027: State Rent C – Net contract size accounting](https://eips.ethereum.org/EIPS/eip-2027)
+
+    [EIP-2029: State Rent A – State counters contract](https://eips.ethereum.org/EIPS/eip-2029)
+
+    [EIP-2031: State Rent B – Net transaction counter](https://eips.ethereum.org/EIPS/eip-2031)
+
+    [EIP-2035: Stateless Clients – Repricing SLOAD and SSTORE to pay for block proofs](https://eips.ethereum.org/EIPS/eip-2035)
+
+    [EIP-2584: Trie format transition with overlay trees](https://eips.ethereum.org/EIPS/eip-2584)
+
+    [EIP-3102: Binary trie structure](https://eips.ethereum.org/EIPS/eip-3102)
+
+    [EIP-3584: Block Access List](https://eips.ethereum.org/EIPS/eip-3584)
+
+    [EIP-4444: Bound Historical Data in Execution Clients](https://eips.ethereum.org/EIPS/eip-4444)
+
+    [EIP-4762: Statelessness gas cost changes](https://eips.ethereum.org/EIPS/eip-4762)
+
+    [EIP-6800: Ethereum state using a unified verkle tree](https://eips.ethereum.org/EIPS/eip-6800)
+
+    [EIP-6873: Preimage retention](https://eips.ethereum.org/EIPS/eip-6873)
+</details>
+
+<details>
+    <summary>Data availability</summary>
+
+    [EIP-2242: Transaction Postdata](https://eips.ethereum.org/EIPS/eip-2242)
+
+    [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
+
+    [EIP-7594: PeerDAS – Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594)
+</details>
