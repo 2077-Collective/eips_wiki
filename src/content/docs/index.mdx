@@ -5,7 +5,7 @@ template: splash
 hero:
   tagline: The ultimate resource on Ethereum Improvement Proposals (EIPs) for research nerds.
   image:
-    file: ../../assets/houston.webp
+    file: ../../assets/eth.png
   actions:
     - text: Start exploring
       link: /eips/
@@ -16,21 +16,30 @@ hero:
       icon: external
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
 
-## Next steps
+## Start exploring EIPs
 
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+	<LinkCard
+        title="Protocol"
+        description="Ethereum Improvement Proposals (EIPs) that require a change to Ethereum’s consensus layer (CL) and execution layer (EL). This includes proposals that modify or alter the Ethereum Virtual Machine (EVM), consensus protocol (Proof of Stake & Proof of Work), and Ethereum’s networking stack."
+        href="/eips/protocol/consensus/"
+    />
+	<LinkCard 
+        title="Infrastructure"
+        description="Ethereum Improvement Proposals (EIPs) that touch Ethereum’s infrastructure layer. Mostly around JSON-RPC APIs, wallets, bridges/interoperability protocols, and staking node operators."
+        href="/eips/infrastructure/bridges/"
+    />
+	<LinkCard
+        title="Applications"
+        description="Ethereum Improvement Proposals (EIPs) that touch Ethereum’s application layer. Often defined as a separate subcategory of EIPs: Ethereum Request for Comments (ERCs). Application-layer standards include standards to ensure interoperability between tokens, applications, and general proposals to improve the Ethereum development process."
+        href="/eips/applications/aa/"
+    />
+	<LinkCard
+        title="Layer 2"
+        icon="open-book"
+        description="Rollup Improvement Proposals (RIPs) proposed for adoption by Ethereum L2s and Ethereum L3s."
+        href="/eips/layer2/rip/"
+    />
 </CardGrid>

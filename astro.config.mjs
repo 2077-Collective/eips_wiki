@@ -4,10 +4,14 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'My Docs',
+			title: '2077\'s EIP Wiki',
 			social: {
 				github: 'https://github.com/withastro/starlight',
 			},
+            customCss: [
+                '@fontsource-variable/orbitron',
+                './src/styles/global.css'
+            ],
 			sidebar: [
                 {
                     label: 'Protocol',
