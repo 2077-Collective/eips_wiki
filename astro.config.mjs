@@ -35,31 +35,31 @@ export default defineConfig({
                     items: [
                         {
                             label: 'Account abstraction',
-                            link: '/eips/applications/aa/',
+                            link: '/eips/applications/aa',
                         },
                         {
                             label: 'Authentication & User security',
-                            link: '/eips/applications/auth/',
+                            link: '/eips/applications/auth',
                         },
                         {
                             label: 'DAOs & Governance',
-                            link: '/eips/applications/daos/',
+                            link: '/eips/applications/daos',
                         },
                         {
                             label: 'Defi',
-                            link: '/eips/applications/defi/',
+                            link: '/eips/applications/defi',
                         },
                         {
                             label: 'Security',
-                            link: '/eips/applications/security/',
+                            link: '/eips/applications/security',
                         },
                         {
                             label: 'Token standards',
-                            link: '/eips/applications/tokens/',
+                            link: '/eips/applications/tokens',
                         },
                         {
                             label: 'General utilities for developers',
-                            link: '/eips/applications/utils/',
+                            link: '/eips/applications/utils',
                         }
                     ]
                 },
@@ -68,23 +68,23 @@ export default defineConfig({
                     items: [
                         {
                             label: 'Briges & Interoperability',
-                            link: '/eips/infrastructure/bridges/',
+                            link: '/eips/infra/bridges',
                         },
                         {
                             label: 'JSON-RPC API spec',
-                            link: '/eips/infrastructure/json-rpc/',
+                            link: '/eips/infra/json-rpc',
                         },
                         {
                             label: 'Client APIs',
-                            link: '/eips/infrastructure/client-apis/',
+                            link: '/eips/infra/client-apis',
                         },
                         {
                             label: 'Wallets',
-                            link: '/eips/infrastructure/wallets/',
+                            link: '/eips/infra/wallets',
                         },
                         {
                             label: 'Node operator',
-                            link: '/eips/infrastructure/node-operator/',
+                            link: '/eips/infra/node-operator',
                         }
                     ]
                 },
@@ -93,7 +93,7 @@ export default defineConfig({
                     items: [
                         {
                             label: 'Rollup improvement proposals',
-                            link: '/eips/layer2/rip/',
+                            link: '/eips/layer2/rip',
                         }
                     ]
                 },
