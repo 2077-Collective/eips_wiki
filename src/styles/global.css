@@ -37,8 +37,6 @@ h1, h2 {
 
 	--sl-color-accent-low: hsl(224, 54%, 20%);
 	--sl-color-accent: hsl(224, 100%, 60%);
-	/* --sl-color-accent-high: hsl(224, 100%, 85%); */
-    /* --sl-color-accent-high: hsl(224, 100%, 85%); */
     --sl-color-accent-high: hsla(136, 100%, 84%, 1);
 
 	--sl-color-text: var(--sl-color-gray-2);
