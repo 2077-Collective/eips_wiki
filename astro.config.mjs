@@ -5,6 +5,11 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: '2077\'s EIP Wiki',
+            logo: {
+                light: './src/assets/full-logo-light.svg',
+                dark: './src/assets/full-logo-dark.svg',
+                replacesTitle: true,
+            },
 			social: {
 				github: 'https://github.com/withastro/starlight',
 			},
