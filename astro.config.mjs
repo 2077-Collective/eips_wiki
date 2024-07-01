@@ -11,7 +11,7 @@ export default defineConfig({
                 replacesTitle: true,
             },
 			social: {
-				github: 'https://github.com/withastro/starlight',
+				github: 'https://github.com/2077-Collective',
 			},
             customCss: [
                 '@fontsource-variable/orbitron',
