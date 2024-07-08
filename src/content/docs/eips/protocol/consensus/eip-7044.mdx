@@ -1,0 +1,67 @@
+---
+title: EIP-7044
+author: Wisdom
+description: Perpetually Valid Signed Voluntary Exits
+---
+
+Written by: {frontmatter.author}
+
+EIP-7044 was proposed to make the staking experience much easier for users that are interested in delegated staking solutions.
+
+**Definition of EIP-7044** 
+
+EIP-7044 is a proposal that was put forth to make the Ethereum network allow signed validator’s voluntary exists to remain valid indefinitely, rather than being limited to two upgrade for block inclusion. Only the current and previous consensus layer fork versions is considered.
+
+**Importance of EIP-7044 to the Ethereum Ecosystem**
+
+The benefits of implementing signed voluntary exits to remain valid indefinitely via EIP-7044 to the Ethereum ecosystem are : 
+
+- EIP-7044 improves the staking experience for users especially those engaged in delegated staking
+- EIP-7044 aims to improve trust and security by making stakers to independently manage their own exits without relying on the validator operator.
+- EIP-7044 opens up new horizons in the world of automation by making it possible for pre-signed voluntary exits to be stored in smart contract and made able to submit the exits if a specific condition is met.
+
+**Brief History of EIP-7044**
+
+EIP-7044 was proposed by Lion on May 18, 2023..  This proposal falls under the 'core' category of EIPs. It is under the status “ FInal “. EIP-7044 was proposed to bring about better staking experience to users. This EIP was part of the Cancun-Deneb upgrade.
+
+**Definition and Rationale behind EIP-7044**
+
+The rationale behind EIP-7044 that leads to the proposal and development revolves around improving the staking experience for users, improving the security and efficiency of validators, reducing trustlessness between stakers and validators, reduces administrative overhead, brings about automation, addresses validator griefing and also increases the level of security for stakers. This lead to the proposal being pushed forward by Lion and it is currently in the “Final” status which means : it exists in the final state and should be only updated after correction of the bugs and also add non-normative clarifications.
+
+**Technical Overview of EIP-7044**
+
+The implementation of EIP-7044 majorly affects the consenus layer of the Ethereum network. It brought about one major change to the state transition function which is to process the signing domain and root fixed on the `CAPELLA_FORK_VERSION` , also the `voluntary_exit` gossips function were modified to fit this modification. The signature domain is locked on the Capella fork to make it backwards compatible.
+
+To better understand this proposal, let’s dive in and take an overview of how Ethereum delegated staking works. The setup of delegated staking is in two parties: **The Eth Staker,** who owns the 32 ETH that they would like to stake and **the validator operator** who handles all the technical and operational complexities of running an Ethereum validator on behalf of the staker. The ways in which delegated staking occurs is in two formats:
+
+- Custodial Delegated staking: In this format, The validator operator takes the 32 ETH from the staker and the staker is required that the validator would not steal the funds or mis-use it.
+- Non-Custodial Delegated staking: In this format, The staker has in his custody the 32 ETH meant to be staked. This format is possible due to the validator having two keys which are: **withdrawal and signing keys**. The siging key is what is used to perform all the on-chain duties which is the attestation and proposal of blocks, signing keys are held in hot wallets since they are tend to be used frequently.
+    
+    The other key is called the withdrawal key is held by the Eth staker as it is tend to be used rarely for on-chain duties. This key points to where the staked 32 ETH deposits lyes. This ensure that the Eth staker retains full ownership of his deposits.
+    
+
+Moving Further, How then do validators exits the delegated setup? This is done when the validator’s signing key are submitted for processing on the Beacon chain by a consensus client. Exiting a validator require what is called “Voluntary Exit Message” or VEM for short, this is the message signed by the validator signing keys that are to be submitted. This scenario introduces a situation which is not favorable to the Eth staker as their fate is in the hands of their validators which are to sigin and submit a voluntary exit.
+
+This scenario that was briefly stated above is what EIP-7044 solves, At present, the validators operator provide a pre-signed voluntary exit message for Eth stakers in their good will to honour the staker for funding them. This then makes the scenario better by allowing stakers to simply submit the signed message at any time to the consensus client for withdrawal and by doing so makes them independent of the validators. This feature will only be valid for the current and previous consensus layer fork. This means that any  pre-signed voluntary exit message prior to the Capella fork will be rendered invalid. This is what EIP-7044 was proposed for which is to make the  VEM perpetually valid indefinitely.
+
+**Advantages of EIP-7044**
+
+The advantages of EIP-7044 are as stated below :
+
+- This proposal improves the security and efficiency of validator’s operation.
+- This proposal redcues trust issues between validator’s and stakers.
+- This proposal improves the staking of users.
+- This proposal addresses validator griefing( which is a term used to describe when validator refuse to exit their validators)
+- This proposal increases the level of security for Eth stakers.
+
+**Potential Challenges and Limitations**
+
+There are no observed potential challenge introduced by the proposed EIP-7044
+
+**Future Improvements**
+
+At the time of writing this wiki, there has been no new information on whether there will be an upgrade to EIP-7044. We will be sure to keep this wiki updated.
+
+**Conclusion**
+
+In conclusion, EIP-7044 is a significant proposal aimed at enhancing the Ethereum staking experience, particularly for users engaged in delegated staking solutions. By making signed validator voluntary exits perpetually valid, rather than limited to two upgrades, EIP-7044 addresses a key limitation in the current system, simplifying the withdrawal process and improving security and trust between stakers and validators.

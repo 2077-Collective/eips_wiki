@@ -1,0 +1,67 @@
+---
+title: EIP-6988
+author: Wisdom
+description: Elected block proposer has not been slashed
+---
+
+Written by: {frontmatter.author}
+
+EIP-6988 was a proposal made to introduce a minute modification to the consensus layer specifying that slashed validators cannot be selected as a block proposer.
+
+*NOTE:* 
+
+- *A slashed validator is a validator who was found to behave maliciously or dishonestly leading to the portion of the validators deposit being destroyed by the network.*
+- *A block proposer is a validator who has been pseudorandomly selected to build a block for a given slot in an epoch ( An epoch is the period of time used to specify when a specific events will occur in the blockchain network )*
+
+**Definition of EIP-6988**
+
+EIP-6988 proposes a modification to prevent slashed validators from being selected as block proposers. Therefore, any block proposed by the slashed validator will be dismissed by the validity check as specified by the consensus layer.
+
+**Importance of EIP-6988**
+
+The importance of EIP-6988 are as stated below: 
+
+- **Maintenance of Network Integrity** : This proposal ensures that once a validator has been slashed, that particular validator would not be able to propose a block again thereby leading to maintenance of the network integrity and making it trusthworthy
+
+- **Reduction of Missed Proposal :** This proposal makes it possible that when a slashed validator proposes a block, the block get dismissed which then leads to the network avoiding missed proposals. EIP-6988 was proposed to solve issues pertaining to such scenario by reducing the number of missed proposal.
+
+- **Higher Rate of Efficiency** : This proposal made the network to be more efficient taking for instance by preventing slashed validators from being able to propose blocks, which makes the network to avoid missed proposals which is important in scenarios that involves correlated slashing( This refers to multiple slashing of validators in a network at the same time ). By doing so, The network is more efficient.
+
+ EIP-6988 has made it possible by bringing a lot of improvements to the Ethereum ecosystem one of such is simplifying the consensus logic by removing edge cases that have to do with an invalid block being proposed. 
+
+**Brief History of EIP-6988**
+
+EIP-6988 was proposed by Mikhail Kalinin on the 4th of May, 2023. This proposal falls under the 'core' category of EIPs. It was proposed to solve the issue of slashed validators been able to be elected as block proposer . It’s status is “Stagnant”.
+
+**Development and Rationale of EIP-6988**
+
+EIP-6988 titled as “ Elected block proposer has not been slashed “ aims to ensure that slashed validators are not able to be elected as block proposer. This proposal was made to correct a mistake in the consensus layer specification which allows slashed proposers to be able to propose block only for the blocks proposed by them to be dismissed during validity checks which in turns leads to missing proposals and making the system highly inefficient.
+
+The implementation of EIP-6988 involves adding **`get_beacon_proposer_index`**  which omits the slashed validators during the block proposer selection process. This implementation is not backwards compatible and requires a hard fork.
+
+**Technical Overview of EIP-6988**
+
+This technical overview delves into the details of this upgrade. Let’s look at the key features and upgrade of the EIP-6988:
+
+EIP-6988 modifies the **`get_beacon_proposer_index`** to enable it to read the proposer index from a beacon state if a slot of the latest block header is the same as `state.slot` . This modification is done so that the function returns the correct proposer index in the case when the proposer of a given block is being slashed during the processing of the block which leads to missed proposals. 
+
+**Advantages of EIP-6988**
+
+EIP-6988 introduced significant advantages to the Ethereum ecosystem which are: 
+
+- Increased Efficiency
+- Simplifying of Consensus logic
+- Maintenance of Network Integrity.
+- Proper handling of Correlated Slashing
+
+**Potential Challenges**
+
+There are no observed potential challenge introduced by the proposed EIP-6988.
+
+**Future Improvements**
+
+At the time of writing this wiki, there has been no new information on whether there will be an upgrade to EIP-6988. We will be sure to keep this wiki updated.
+
+**Conclusion**
+
+In conclusion, EIP-6988 addresses the issue of proper proposer selection process by dimissing blocks proposed by slashed validators. This modification is crucial for maintaining network integrity, reducing missed proposals, and enhancing efficiency, especially in scenarios involving correlated slashing.

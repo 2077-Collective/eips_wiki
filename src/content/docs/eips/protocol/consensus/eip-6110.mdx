@@ -1,0 +1,106 @@
+---
+title: EIP-6110
+author: Wisdom
+description: Supply validator deposits on chain
+---
+
+Written by: {frontmatter.author}
+
+
+EIP-6110 marks a significant milestone in the Ethereum ecosystem by solving the proposal of the Eth1-Eth2 bridge by making it faster, safer and less complex for teams maintaining consensus clients. It introduced new method of processing transactions  and removing some functions such as depositing voting from the consensus layer of the blockchain. This article will take an in-depth approach on how EIP-6110 works under the hood, advantages, importance and drawbacks.
+
+**Definition of EIP-6110**
+
+This proposal was a change to the way validators deposits are processed by making it “ in- protocol processing of deposits “ rather than the  proposer voting mechanism utilized and depreciating the Eth1 data poll ( This refers to the state of deposit contract at a particular block height on the execution layer) and the Eth1-Eth2 bridge  ( This refers to the way of passing deposits information between the execution layer ).  EIP-6110 decreased the delay between submitting deposits to the execution layer and processing on the consensus layer. EIP-6110 can also be referred to as “On-chain Validators  Deposits”. 
+
+**Importance of EIP-6110 to the Ethereum Ecosystem**
+
+The benefit of implementing an on-chain validator deposits via EIP-6110 to the ethereum ecosystem are: 
+
+- EIP-6110 has reduced the complexity of consensus client software design and engineering making it easier for teams maintaining it.
+- EIP-6110 has reduced the delay between submitting deposits to the execution layer and processing on the consensus layer.
+- EIP-6110 has significantly increased the security of the chain by making sure that validators validate each deposits transactions originating from the consensus layer thereby increasing the threshold of validators that must be corrupted by an adversary to exploit the deposit processing mechanism.
+- EIP-6110 has increased the speed of sync times for new validators by making participation in beacon chain duties independent.
+
+**Brief history EIP-6110**
+
+EIP-6110 was proposed by Mikhail Kalinin , Danny Ryan , Peter Davies on the 9th of December, 2022.  This proposal falls under the 'core' category of EIPs. This proposal reforms the  
+
+Beacon chain validators deposits mechanism and fixes a list of issues currently affecting the security and efficiency of the “Ethereum” Proof of Stake protocol. These issues are caused generally by the dependence on the deposit processing mechanism of the Eth1-Eth2 bridge.
+
+*Note: The Eth1-Eth2 bridge is a medium by which Ethereum consenus and execution layer which enables processing of collateral deposits from validators on Ethereum. It serves as a gateway for anyone interested in participating in Ethereum consensus*
+
+**Development and Rationale behind EIP-6110** 
+
+Due to the drawbacks of  the Eth1-Eth2 bridge - poor security, high engineering complexity, low efficiency, less trust in the system where miners in the Eth1 bridge couldn’t be trusted due to their ETh not been staked on the ETh2(Beacon) chain and have weaker incentives to act honsetly. This lead to the proposal of EIP-6110 which came into place to remedy all the drawbacks of the ETh1-ETh2 bridge. Key considerations that went into the development of this EIP: 
+
+ 
+
+- EIP-6110 eliminates the  requirement to maintain and distribute deposit contract snapshots.
+- EIP-6110 increases the safety threshold of deposit processing mechanisms.
+- EIP-6110 also increases the Beacon chain economic security.
+
+EIP-6110 was in all a game changer when it comes to the way deposits are being processed.
+
+**Technical Overview of EIP-6110** 
+
+EIP-6110 is a huge change in the way deposits withdrawal are being processed as it was moved to “on-chain”. The changes proposed by EIP-6110 are in two forms- Execution Layer and Consensus Layer.  This technical overview goes over the main features and upgrades of this proposal:
+
+**Execution Layer** 
+
+- **Define the new deposit structure and modify the EngineAPI to include deposits in engine payload** : EIP-6110 defines a new deposit operation structure and modifies the EngineAPI to return the deposit deposits operation in execution payload.
+- **Modify execution payload headers to take a `deposits_root` value and update the execution engine to validate deposit operations :** After extracting deposits from deposits log, the engine create a merklized tree summary of deposits operations and adds them to the `deposit_roo`t field
+- **Add the deposit contract address to the Engine API’s configuration file :** EIP-6110 introduces a `depositContractAddress` object into the Engine API’s configuration file to ensure execution clients extract deposits from the correct event log.
+
+**Consensus Layer** 
+
+- **Modify Beacon block structure to include deposit receipts :** The structure of Beacon block is modified to include a new `DepositReceipt` object.
+- The `ExecutionPayload` is extended with a new `deposit_receipts` field to accommodate deposit operations list.
+- A new beacon block validity condition is added to constrain the usage of Eth1 data poll.
+- A new `process_deposits_recepit` is added to handle `deposits_receipts`.
+
+**Adavantages of EIP-6110** 
+
+The benefits of the EIP-6110 proposal may have already being know from the beginning when reading through this article, This section will be dedicated to explain few points further:
+
+- **Reduced engineering complexity for consensus clients**
+
+With the Eth1-Eth2 bridge as the default mechanism for processing deposits, consensus clients have to dedicate time to maintaining the following components:
+
+- Eth1Data Fetcher (to query the execution client for deposit contract event logs)
+- Deposit contract logs cache (to reduce the difficulty of rebuilding the deposit tree)
+- Eth1Data polling algorithm (to implement Eth1Data voting for proposers)
+- Deposit contract snapshots cache (to speed up syncing of new nodes and creation of Merkle proofs of deposits)
+
+EIP-6110’s deprecation of the Eth1-Eth2 bridge and Eth1Data poll removes the burden on client teams to maintain the aforementioned components. Besides saving on valuable engineering hours debugging issues, clients can also reduce the surface area for software bugs by writing less code and reducing complexity in implementations.
+
+- **Faster sync times** : EIP-6110 reduces onboarding friction for new validators by making participation in Beacon chain duties independent of the syncing of historical data on the execution layer. Block proposers are required to include all pending deposits and need to create Merkle proofs to prove inclusion of deposits in the deposit contract’s Merkle tree. Attesters also need to rebuild the deposit tree in order to process blocks and verify Merkle branches for deposit operations included in a proposed block. EIP-6110 removes the need for validators to process historical deposits before proposing blocks on the Beacon Chain. The consensus layer doesn’t require Merkle proof verification for deposits, so a validator—once it has successfully synced the Beacon state—can start proposing blocks and serving up deposits to the rest of the network without having to wait for the attached execution client to sync the deposit contract’s history.
+
+- **Eliminating requirements to store and distribute deposit contract snapshots :** [EIP-4881: Deposit Snapshots Interface](https://eips.ethereum.org/EIPS/eip-4881) is a solution to the problem of downloading historical deposit transaction receipts and rebuilding the deposit contract’s Merkle tree from scratch before processing Beacon blocks. EIP-4881 introduces a mechanism for clients to store and transmit the minimal amount of Merkle tree hashes required to rebuild the root of the deposit tree at a particular (finalized) block height. This reduces syncing times for new validators and frees up execution clients to prune parts of the chain’s history not relevant to processing blocks and transactions.
+    
+    However, EIP-4881 introduces additional complexity for node operators by forcing the requirements to store and update deposit contract snapshots. This itself can turn out to be a fairly complicated task, and a number of node operators have run into issues with properly syncing the deposit contract snapshots cache—sometimes leading to the creation of invalid blocks (blocks can be invalid if a proposer is creating invalid Merkle proofs for deposits). Plus, not every client uses EIP-4881—some are still using JSON-RPC API to rebuild historical states, which is painfully slow and prone to errors.
+    
+    By eliminating the need for proposers to create Merkle proofs for deposits, in-protocol deposit processing (via EIP-6110) allows full nodes to avoid storing deposit Merkle tree data; attesting validators also don’t need to keep a local copy of the deposit tree to validate blocks. Finally, newly onboarded consensus nodes only have to reason about importing the execution layer’s state and can safely skip on downloading deposit contract event logs during the syncing process
+    
+
+**Potential Challenges and Limitations**
+
+Are there any potential drawbacks of EIP-6110? Well sure, All though it may seem as a perfect proposal, it is good to check out its drawbacks.
+
+Let’s dive in
+
+**Breaking the ValidatorIndex invariant :** The Beacon Chain’s validator registry stores a mapping of validator public keys (`pubkey`) to validator indices (`ValidatorIndex`)
+
+- The `ValidatorIndex` is associated with a *validator* (or, more accurately, the validator’s public key) and is assigned when the Beacon Chain processes the deposit and creates a validator record that saves important information about the validator in the Beacon state. The set of information stored per validator record for each validator includes the `pubkey`, `withdrawal_credentials`, and a Boolean value indicating if the validator has been slashed or not (among others).
+
+EIP-6110 removes the Eth1 follow distance and deprecates the Eth1Data poll. This means pending deposits no longer have the notion of finality at the time `ValidatorIndex` is first created; hence, the same validator can have a different `ValidatorIndex` mapped to its `pubkey` in two competing blocks. This can create issues for clients that rely on the `pubkey-index` cache to perform fast lookups of validator indices when participating in consensus. ****
+
+**Growth in Chain Data :** Currently, deposit data supplied by the deposit contract is stored in historical logs and doesn’t induce additional state growth. EIP-6110 requires validators to include deposit data in execution layer (EL) blocks, however, which may trigger the fear that execution clients will require more disk space to store blockchain data post-EIP6110. 
+
+**Future Improvement**
+
+Currently, EIP-6110 does not specify any future improvements but some areas where speculated improvements can be seen include the following : Security improvements, gas cost optimization, optimistic syncing and so much more.
+
+**Conclusion** 
+
+EIP-6110 marks a significant advancement in the Ethereum ecosystem, addressing inefficiencies in the validator deposit mechanism. By shifting to an on-chain processing model for validator deposits, EIP-6110 reduces the engineering complexity for consensus clients, enhances the security and speed of the deposit process. This proposal not only improves the overall performance and security of the Ethereum network but also simplifies the responsibilities of consensus clients, leading to more robust and reliable network operations.

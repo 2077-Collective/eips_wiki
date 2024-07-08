@@ -1,0 +1,102 @@
+---
+title: EIP-3675
+author: Alex Hook
+description: Upgrade consensus to Proof-of-Stake
+---
+
+Written by: {frontmatter.author}
+
+EIP-3675, popularly referred to as “The Merge” is arguably the most significant Ethereum Improvement Proposal (EIP) till date. It outlines the details of transitioning Ethereum's consensus mechanism from Proof-of-Work (PoW) to Proof-of-Stake (PoS).
+
+# Introduction
+
+Ethereum, launched in 2015, initially used a Proof-of-Work consensus mechanism similar to Bitcoin. While PoW provided pretty strong security, it had significant drawbacks, including high energy consumption and limited scalability. As the Ethereum network grew, these limitations became increasingly problematic.
+
+The idea of transitioning to Proof-of-Stake was part of Ethereum's roadmap from the beginning. However, implementing such a fundamental change to a live, high-value network required years of research, development, and testing. EIP-3675, proposed in July 2021, formalized the upgrade that would enable this transition.
+
+# What is EIP-3675?
+
+At its core, EIP-3675 is the formal specification for “The Merge”—the event where Ethereum's main network (at the time) joined with the Beacon Chain, the network responsible for operation of the Proof-of-Stake consensus. After *The Merge*, it’s now customary to seperate the execution Layer”, and the consensus one as a “Consensus Layer” responsively.
+
+It's worth noting that this EIP doesn't detail the entire Proof-of-Stake system, as much of that was already implemented in the Beacon Chain. Instead, it focuses on the changes needed in the Execution Layer to adopt PoS consensus.
+
+## Consensus Layer
+
+It might not seem obvious why the Ethereum community had even created the separate Consensus Layer network, if there already was a long-running Execution Layer that could be upgraded directly. There were multiple reasons for such a design decision:
+
+- **Technical simplicity:** Modular architecture allows splitting a large codebase into multiple laconic mechanisms, each working on a single task. This, in turn, allows for more efficient and time-saving development and reduces risks related to bugs. For example, CL and EL have two different networking protocols ([LibP2P and DevP2P](https://ethereum.org/en/developers/docs/networking-layer/)), data structures ([SSZ](https://ethereum.org/en/developers/docs/data-structures-and-encoding/ssz/) and [RLP](https://ethereum.org/en/developers/docs/data-structures-and-encoding/rlp/)), and have written their codebases from scratch.
+- **Economic security:** As Ethereum has initially launched on PoW, it had no stake available to secure the system when it migrates to PoS. Running a separate network that accumulated stake for almost two years before the Merge allowed Ethereum to stay as secure as pre-Merge.
+- **Sharding:** A long ago, Ethereum had plans to scale with sharding—distributing the network among many parallel execution networks, all synchronized by a single Consensus Layer. This is why the CL was initially called the Beacon Chain. The today’s Execution Layer was going to be the shard 0 for the sharded Ethereum. Even though the Ethereum community is now targeted at rollup-centric scaling, the resulted consensus stack allows for exploring [Data Availability Sampling solutions](https://ethresear.ch/t/peerdas-a-simpler-das-approach-using-battle-tested-p2p-components/16541) based on it, which in turn help rollups scale.
+
+![image](https://lh7-us.googleusercontent.com/docsz/AD_4nXcJWLAtlWY_lxiE8ncRML_m2lxPPqazSDHD_P6o2d-tAgKcTA14YgrfQf0MHLOKbrcgqgUtFfI5TummgcApXUbtKNkV5IMQdI4COkkw7hmNmAEP6kjB6JZP8RbsQhIK15dZ8IXrZ6kIRmUnTrxGOLgWGGc?key=LjZqXnt1QrHwJ13n0fzsjQ
+)
+# How does EIP-3675 work?
+
+The core of EIP-3675 involves replacing the PoW block production process with a PoS-based system. Here are the key technical aspects:
+
+## Block Structure Changes
+
+![image](https://lh7-us.googleusercontent.com/docsz/AD_4nXcf-NYgi8QX8XpBktFBABfL4DteNrTSpKmtStDeRTDY9P9vs3Qb0JIscxjcsodtg56MVHvPUVNSuzhaoWcuE6YBrRn5Pi_VlO0BiakWFt1b4Fb1dn2AakdbZNS2yxlu3_bYBbzzRQpWLEp9c_9Rw4YAmHI?key=LjZqXnt1QrHwJ13n0fzsjQ
+)
+
+The block structure has undergone several changes. This is what was changed:
+
+- The list of ommers (uncle blocks) is now empty. As they were only possible with PoW, the list was replaced with a constant, empty value.
+- The difficulty, nonce and mix hash were set to zeroes as well, as they’re related to the now deprecated Ethash mining mechanism.
+- The extra data field used by block producers to assign custom information to the block is now limited to 32 bytes.
+
+Besides that, the Execution Layer no longer distributes block rewards. The “coinbase” account is now just an EL address that receives the fees for the transactions.
+
+## Fork Choice Rule
+
+Fork choice rule is a set of rules that a node uses to determine which version of the chain to follow. In EIP-3675, the transition block was determined by the Total Terminal Difficulty—the total amount of PoW computations spent on the generation of the PoW-heaviest chain. When a PoW block reaches the TTD, the PoW is disabled and the fork choice rule is changed from PoW-heaviest chain to LMD-GHOST finality gadget used in Ethereum’s PoS.
+
+LMD-GHOST introduces the concept of “finality” in the Ethereum network. With PoW, all blocks can be reverted, given that the alternative chain with more PoW spent exists. In Ethereum’s PoS, after 2 epochs (64 blocks, ~12.8 minutes), the block is finalized and cannot longer be reverted without burning at least ⅓ of the entire stake. This makes blocks in PoS more secure and their confirmations more reliable.
+
+## Issuance Reform
+
+After The Merge, Execution Layer is no longer responsible for issuing new ETH as a reward to block producers. As blocks are now decided on by the PoS, it also coordinates all rewards in the consensus. Specifically, instead of simple static 2 ETH/block, validators are rewarded based on their number in the network—the more validators there are, the less the reward. Besides that, validators are also rewarded for voting on epochs and participating in sync committees, needed for synchronization of light clients.
+
+*—How much should the issuance be increased then?*
+
+Actually, it became much lower! Instead of predictable decreasing issuance on Bitcoin, the Ethereum community adheres to the idea of *Minimum Viable Issuance*—always looking for the *lowest possible* issuance rate that keeps the network secure. As there’s no longer need to burn monstrous amounts of electricity, the *cost price* of operating the network became much lower—essentially, just the cost of running a tiny computer with a cheap home fiber. This means that the validators can pay off by much smaller rewards than were needed on PoW.
+
+In terms of figures, after the Merge, the yearly issuance rate has dropped from about 4.3% to about 0.5%. Combined with EIP-1559 that burns the transaction fees, Ether has become the first deflationary cryptocurrency. This started the philosophy of [“ultra-sound money”](https://ultrasound.money/), suggesting that if Bitcoin with its potentially limited supply is considered sound money, then deflationary Ether must be ultra-sound!
+
+![image](https://lh7-us.googleusercontent.com/docsz/AD_4nXfojvDwb7Mz8NDXlQaT6LvDD5YqEhele_gEJUQD6yvEK8vp1sqSdo5O8m2OFmN5JoRJk2t5NIQgq_5KodcDCwcNp-XUrPlB07UkBJJpliGyuFkM86daZ2BJ-wXP0UcUwrjKPw4LhYSOGJ9gRTO4vixg4I0?key=LjZqXnt1QrHwJ13n0fzsjQ
+)
+
+*Source: [https://ultrasound.money](https://ultrasound.money/)*
+
+## Difficulty Bomb has been Defused
+
+Difficulty Bombs were a crucial mechanism in Ethereum's transition to Proof-of-Stake. This feature gradually increases mining difficulty, eventually making it unsustainable to mine on the old chain—a point dubbed the “Ice Age.”
+
+The primary purpose of Difficulty Bombs was to prevent resistance to the network upgrade. Without them, miners opposing the shift to PoS could simply continue using outdated software, potentially fragmenting the network and undermining The Merge.
+
+By implementing Difficulty Bombs, the Ethereum community ensured that continuing on the old chain would require active intervention (a hard fork) to defuse the “bomb.” This strategy effectively eliminated any seemingly legitimate alternatives to the PoS transition, as inaction would lead to an unusable chain trapped in the Ice Age. This approach cleverly aligned incentives and technical constraints to guide the entire network towards the planned upgrade, minimizing the risk of a contentious split in the Ethereum ecosystem.
+
+EIP-3675 removed the PoW-specific concept of “difficulty,” and this led to the removal of the difficulty bomb. Various PoW forks of Ethereum, such as ETHW and ETHF, had to undergo the hard forks to defuse the bomb, which caused incompatibility with existing infrastructure and shortly their death.
+
+# Why PoS?
+
+Even though we’ve described the necessity of The Merge to move the Ethereum network to PoS, we haven’t discussed why Ethereum network needed PoS in the first place. There are numerous reasons for this decision:
+
+- **Energy efficiency:** PoS drastically reduced Ethereum's energy consumption by eliminating the need for energy-intensive mining operations. This addressed environmental concerns associated with PoW.
+- **Improved scalability:** PoS laid the groundwork for future upgrades, such as 4844 and Danksharding, that enhance Ethereum's transaction processing capacity and speed. These upgrades would not be possible on PoW.
+- **Increased security:** PoS introduced economic penalties for malicious behavior, making attacks more costly and risky for potential bad actors.
+- **Reduced centralization risks:** PoS aimed to democratize participation in network consensus by lowering hardware requirements compared to PoW mining.
+- **Reduced issuance:** PoS allowed for a significant reduction in the rate of new ETH issuance, making ETH deflationary over time.
+
+# Conclusion
+
+![image](https://lh7-us.googleusercontent.com/docsz/AD_4nXf1fON9wchUSgfeW38GEAF8OmuPecF0M0cZZshSB_yAGsrbhz5209KeSu27b856_f8ryXGDeiA94LlWJvKCNZtQCMWCnEQ0_oSGF_Zp-98NIKyyeNg_ByvFbU33xJIFX6C0H1TpYmYJZySjg5YAsV73ynY?key=LjZqXnt1QrHwJ13n0fzsjQ
+)
+
+The Paris upgrade, which occurred on September 15, 2022, was the crucial moment of Ethereum's transition from proof-of-work to proof-of-stake, known as The Merge. It was triggered when the network reached a specific Total Terminal Difficulty value, marking the end of the proof-of-work era. The final PoW block was mined by F2Pool at 2:43:42 AM UTC, followed by the first PoS block proposed by Validator 410983, owned by Celsius Network, just 12 seconds later. This seamless transition brought immediate changes to the network, including straightening in the block time to the static 12 seconds, a shift in block rewards to validators, and the permanent disabling of the “difficulty bomb.”
+
+In the aftermath of the Paris upgrade, Ethereum experienced several significant developments. The network remained stable, with high participation rates indicating widespread validator readiness. Economically, the elimination of miner rewards led to a dramatic drop in ETH issuance, resulting in periods of deflation during high network usage. This change sparked discussions about Ethereum's monetary policy and Ether’s potential as a first deflationary cryptocurrency.
+
+EIP-3675 represents a pivotal moment in Ethereum's evolution. By enabling the transition to Proof-of-Stake, it addresses key challenges of energy consumption and scalability while maintaining Ethereum's decentralized nature. While the change comes with its own challenges, it sets the stage for future improvements like sharding, positioning Ethereum for continued growth and innovation in the blockchain space.
+
+Thank you for reading.

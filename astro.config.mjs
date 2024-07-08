@@ -12,12 +12,22 @@ export default defineConfig({
             },
 			social: {
 				github: 'https://github.com/2077-Collective',
+				discord: 'https://discord.gg/2077Collective',
 			},
             customCss: [
                 '@fontsource-variable/orbitron',
                 './src/styles/global.css'
             ],
 			sidebar: [
+                {
+                    label: 'Contributing',
+                    items: [
+                        {
+                            label: 'Contribute to the EIPwiki',
+                            link: '/eips/layer2/rip',
+                        }
+                    ]
+                },
                 {
                     label: 'Protocol',
                     items: [

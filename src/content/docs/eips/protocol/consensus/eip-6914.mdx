@@ -1,0 +1,74 @@
+---
+title: EIP-6914
+author: Wisdom
+description: Reuse Withdrawn Validator Indices
+---
+
+Written by: {frontmatter.author}
+
+EIP-6914 was a proposal aimed at addressing the unbounded growth of validator lists on the Ethereum beacon chain, which could introduce complexity in client implementations. The solution proposed was the "re-use of fully withdrawn validator indices after a safe-to-reuse period."
+
+**Definition**
+
+EIP-6914 proposes reusing fully withdrawn validator indices on the Ethereum beacon chain after a safe period to prevent unbounded growth of the validator list. 
+
+**Importance of EIP-6914 to the Ethereum Ecosystem**
+
+The importance of EIP-6914 are as stated below: 
+
+- **Efficiency :** EIP-6914 introduces efficiency in the Ethereum beacon chain lists by reducing the unbounded growth of the validator lists.
+- **Scalability :** EIP-6914 brings about scalability in the Ethereum beacon chain lists by making more free index for new validators to be added thereby making the lists to accommodate more validators.
+
+EIP-6914 made a huge impact in the ecosystem as it made the management and increased efficiency of the validators lists.
+
+**Brief History of EIP-6914**
+
+EIP-6914 was proposed by Lion, Danny Ryan on the 19th of April, 2023. This proposal falls under the 'core' category of EIPs. It was proposed to solve the issue of unbounded growth of validator lists on the Ethereum beacon chain. It’s status is “Draft”
+
+**Development and Rationale of EIP-6914**
+
+Due to the drawbacks in the current mechanism of how Ethereum beacon chain handles the appending and removal of indices which involves permanently removing the validator and index leading to inefficiency in the validator lists and unbounded growth, EIP-6914 was proposed to solve the issue which involves reuseable index to accommodate new validators that gets added to the Ethereum beacon chain lists.
+
+This proposal will in turn help in increasing the efficiency and scalability of the Ethereum beacon chain and also help to reduce complexity when handling the validators lists.
+
+This proposal must be added through a Hard fork.
+
+**Technical Overview of EIP-6914**
+
+EIP-6914 helped in the making of the Ethereum beacon chain validators list more efficient and scalable. This technical overview delves into the details of this upgrade. Let’s look at the key features and upgrade of the EIP-6914:
+
+Currently, when a new validator is added to the beacon chain lists due to his deposits, an index is created for this deposit. Similarly, if a withdraw operation is carried out by the validator, the index is also removed from the beacon chain lists. This will lead to a situation where there is an unbounded growth of the validator list and will eventually lead to inefficiency and challenges in handling the validator lists.
+
+EIP-6914 brings a new solution to this to make it  more efficient and not to complex in handling the validator lists. This is done by not permanently removing the index of a withdrawn validators under certain conditions such as a safe period to pass before use, When the the index is not removed and is marked as “free” and available for “re-use”. When a new validator is added to the beacon chain lists, it is assigned to the available "reusable index". This method simplifies the process by eliminating the need to create an index each time.
+
+**Advantages of EIP-6914**
+
+EIP-6914 introduced significant advantages to the Ethereum ecosystem through the beacon chain which are :
+
+- **Increased Efficiency**
+- **Scalability**
+- **Adequate Management of Resources:** This proposal enhances the effective use of resources on the Ethereum beacon chain. By reusing the validator indices, it decreases the load on the chain, which results in faster processing and the ability to handle more operations. It also simplifies the management of the validator list.
+
+**Potential Challenges**
+
+The major challenge of this proposal is that validators indices cannot be immediately reused and must wait epochs called the `SAFE_EPOCHS_TO_REUSE_INDEX`   to ensure that the attestations cannot be poisoned  with withdrawn validator signature for at least the weak subjectivity period.
+
+*An excrept from the official EIP-6914 doc*
+
+> 
+> 
+> 
+> The attestation poisoning attack hinges upon two facts:
+> 
+> - the reuse of a validator index overwrites the previous validator's pubkey from the beacon state.
+> - `AttesterSlashing`s include validator indices to reconstruct signature pariticipants.
+
+*NOTE: This can be mitigated by not overwriting withdrawn validators for `SAFE_EPOCHS_TO_REUSE_INDEX` epochs (3x the max weak subjectivity period) ensures that attestations cannot be poisoned within the accountable safety security window.*
+
+**Future Improvement**
+
+At the time of writing this wiki, there has been no new information on whether there will be an upgrade to EIP-6914. We will be sure to keep this wiki updated.
+
+**Conclusion**
+
+EIP-6914 marks a significant stride towards enhancing the Ethereum beacon chain's efficiency and scalability. By introducing a mechanism to reuse validator indices, it addresses the challenges posed by unbounded list growth, paving the way for a more sustainable and robust Ethereum ecosystem.

@@ -1,0 +1,132 @@
+---
+title: EIP 6734
+author: Alex Hook
+description: Serenity Phase 0
+---
+
+Written by: {frontmatter.author}
+
+# Introduction
+
+Ethereum's ecosystem has grown exponentially, with various Layer 2 solutions emerging to address scalability challenges. However, this growth has led to a significant challenge: the lack of standardization in identifying and listing tokens across different chains. Enter ERC-6734, a proposed standard aimed at creating a canonical token list that ensures the correct identification of tokens across various blockchain layers.
+
+The proposal, drafted by Kelvin Fichter, Andreas Freund, and Pavel Sinelnikov, stems from the work of the L2 Standards Working Group, an initiative under the EEA Community Projects managed by OASIS. This group recognized a fundamental problem in the multichain world: the lack of consensus on “canonical” token representations across different chains.
+
+Currently, when bridging a token from Chain A to Chain B, a new representation of that token must be created on Chain B. Different L2 solutions, such as Arbitrum and Optimism, maintain their own customized versions of token lists, often based on the Uniswap token list but with various extensions. This lack of standardization can lead to confusion and potential security risks.
+
+# What’s ERC-6734?
+
+ERC-6734 is a proposed Ethereum Improvement Proposal that aims to standardize token lists across Layer 1, Layer 2, and sidechain systems in the Ethereum ecosystem. The proposal introduces a standardized JSON schema for creating a canonical token list that can be used across various Ethereum-compatible blockchains. This schema includes comprehensive token information such as chain ID, token address, name, symbol, decimals, and additional metadata. ERC-6734 is designed to provide cross-chain compatibility, offering a way to represent tokens that exist on multiple chains and helping to establish a canonical representation across different networks.
+
+Ultimately, ERC-6734 seeks to replace the current practice of different L2 solutions maintaining their own custom token lists, moving towards a more unified approach in the Ethereum ecosystem. This standardization effort is designed to create a consistent way of representing and identifying tokens across the multichain Ethereum landscape, addressing a fundamental challenge in the current ecosystem of blockchain scalability solutions.
+
+# How does ERC-6734 work?
+
+## JSON for Linked Data
+
+The ERC-6734 standard provides a detailed JSON-LD schema for representing tokens, ensuring that each token entry contains a wealth of information. This comprehensive approach helps in accurately identifying and managing tokens across different blockchain networks. The key components of token information include:
+
+1. **Chain Identifiers:**
+- chainId: A numerical identifier for the blockchain where the token exists.
+- chainURI: A resolvable URI pointing to the genesis block of the chain.
+- genesisBlockHash: The hash of the chain's genesis block.
+1. **Token Identifiers:**
+- tokenId: A unique, resolvable URI for the token, potentially linking to its deployment transaction or a decentralized identifier (DID).
+- address: The smart contract address of the token on its blockchain.
+- tokenType: An array describing the characteristics of the token (e.g., fungible, transferable).
+1. **Token Metadata:**
+- name: The full name of the token.
+- symbol: The short symbol or ticker of the token.
+- humanReadableTokenSymbol: A combination of the token symbol and chain ID (e.g., “ETH-1” for Ethereum on mainnet).
+- decimals: The number of decimal places the token supports.
+- tokenDesc: A brief description of the token and its functionality.
+1. **Issuer Information:**
+- tokenIssuerId: A resolvable URI identifying the token issuer.
+- tokenIssuerName: The name of the entity that issued the token.
+1. **Technical Details:**
+- standard: A link to the token standard specification (e.g., ERC-20).
+- addressType: The type of address used (e.g., “MaticNameSpace”).
+- addressAlg: The algorithm used to create the address (e.g., “CREATE2”).
+1. **Visual Representation:**
+- logoURI: A link to the token's logo image.
+1. **Temporal Information:**
+- createdAt: The date and time when the token was created.
+- updatedAt: The date and time of the last update to the token's information.
+1. **Cross-Chain Extensions:**
+- rootChainId: The chain ID of the original chain.
+- rootChainURI: A URI for the genesis block of the original chain.
+- rootAddress: The token's address on the original chain.
+
+# Benefits and Implications
+
+## Improved Interoperability
+
+ERC-6734's standardized approach to token listing significantly enhances interoperability across different blockchain networks. By providing a consistent format for token information, it becomes easier for rollup infrastructure to communicate and exchange token data. This standardization facilitates seamless token transfers between chains, simplifies the development of cross-chain applications, and enables more efficient bridge protocols. For developers, this means reduced complexity when building applications that interact with multiple chains, as they can rely on a single, comprehensive token information format.
+
+## Enhanced Security
+
+The detailed and standardized token information helps mitigate risks associated with token misidentification or fraud. By including specific details like the token's origin chain, address algorithm, and a unique identifier, it becomes more difficult for malicious actors to create and distribute fake tokens. The human-readable token symbol, which includes the chain ID, further reduces the risk of users confusing tokens across different networks.
+
+## Improved User Experience
+
+End-users benefit from a more consistent and clear representation of tokens across different platforms and wallets. The human-readable token symbols make it easier for users to distinguish between tokens, especially when dealing with multichain environments. The inclusion of logo URIs allows for consistent visual representation across different interfaces. Moreover, the comprehensive token information enables wallet providers and dApp developers to offer more detailed and accurate token information to users, enhancing transparency and user confidence in token interactions.
+
+## Simplified Token Management for Projects
+
+For projects issuing tokens or managing multichain presence, ERC-6734 provides a standardized way to represent their tokens across different networks. This simplifies the process of listing tokens on various platforms and ensures consistent representation across different ecosystems. It also makes it easier for projects to maintain and update their token information across multiple chains.
+
+## Enhanced Analytics and Tracking
+
+The standardized format facilitates better analytics and tracking of tokens across different chains. Researchers, analysts, and data providers can more easily aggregate and compare token data across various networks, leading to more comprehensive market insights and improved transparency in the crypto ecosystem.
+
+## Easier Regulatory Compliance
+
+For projects and platforms operating in regulated environments, the detailed token information provided by ERC-6734 can assist in meeting regulatory requirements. The clear identification of token issuers, standards, and cross-chain relationships can help in maintaining transparency and providing necessary information to regulators.
+
+# Challenges and Considerations
+
+While ERC-6734 addresses a crucial need in the Ethereum ecosystem, its adoption and implementation may face challenges:
+
+## Adoption by Existing Projects
+
+One of the primary challenges for ERC-6734 is gaining widespread adoption, especially among established projects in the L2 and sidechain space. Many of these projects, such as aforementioned Uniswap, have already invested significant resources in developing their own token list implementations. Transitioning to the new standard may require substantial effort in terms of development, testing, and integration. There might be resistance due to the costs involved and potential disruptions to existing systems. Moreover, projects may be hesitant to adopt a new standard if they perceive their current solutions as sufficient or if they have concerns about losing control over their token representation.
+
+## Maintaining Up-to-Date Information
+
+The token ecosystem is highly dynamic, with new tokens being created, modified, or deprecated regularly. Keeping the canonical token list current and accurate across multiple chains presents a significant logistical challenge. Questions arise about who will be responsible for maintaining this information, how updates will be verified and implemented, and how quickly changes can be reflected across the ecosystem. There's also the challenge of handling conflicting information or disputes about token representations, especially in a decentralized environment.
+
+As with pretty much any standard in a decentralized ecosystem, questions arise about governance as well. Who will have the authority to propose and approve changes to the ERC-6734 standard? How will disputes about token representations or list contents be resolved, especially in cases where there might be competing claims or disagreements between different L2 communities?
+
+## Cross-Chain Consensus
+
+Achieving consensus on canonical token representations across different chains is complex, especially for tokens that exist on multiple networks. Different chains may have varying governance structures, update mechanisms, and priorities. Coordinating updates and ensuring consistency across these diverse ecosystems could prove challenging. There's also the question of how to handle situations where a token's representation differs significantly across chains, or when there are competing claims to “canonical” status.
+
+## Scalability and Performance
+
+As the number of tokens and chains grows, the size of the canonical token list could become substantial. This raises concerns about the scalability of systems implementing ERC-6734. How will applications efficiently process and store this information? Will there be performance implications for querying large token lists, especially in resource-constrained environments like mobile devices or self-hosted indexers?
+
+## Regulatory Compliance
+
+As the crypto space faces increasing regulatory scrutiny, how will ERC-6734 address potential regulatory requirements? Will the standard be flexible enough to incorporate additional information that may be required by regulators in different jurisdictions? There's also the consideration of how this standardized information might be used in compliance processes and whether it could inadvertently create new regulatory challenges.
+
+This also raises questions about privacy. How will the standard balance the need for detailed information with potential privacy concerns of token issuers or users? Are there scenarios where certain information should be optionally included or excluded based on privacy considerations?
+
+## International and Multi-Lingual Support
+
+Given the global nature of the crypto ecosystem, how will ERC-6734 handle multilingual support for token names, descriptions, and other text-based fields? Ensuring accurate and consistent representation across different languages and writing systems could be challenging.
+
+# Conclusion
+
+ERC-6734 represents a significant milestone in the evolution of the Ethereum ecosystem, particularly in addressing the challenges posed by the proliferation of Layer 2 solutions and sidechains. By proposing a standardized approach to token lists, this EIP tackles a fundamental issue in the rollup-centric landscape: the consistent identification and representation of tokens across different rollups.
+
+One of the key strengths of ERC-6734 is its holistic approach. By providing a detailed schema for token information, including chain-specific data, issuer details, and cross-chain representations, it creates a robust framework that can accommodate the complex realities of modern blockchain networks. This comprehensive approach positions ERC-6734 as more than just a token listing standard; it's a foundational piece for building more sophisticated cross-chain applications and services. By standardizing token representation, it could foster greater trust and transparency in the ecosystem. Users and developers alike can benefit from clearer, more consistent token information, potentially reducing instances of fraud or confusion related to token identities across different chains.
+
+However, the road to widespread adoption of ERC-6734 is not without challenges. The Ethereum community will need to grapple with issues of backward compatibility, the costs of implementation for existing projects, and the ongoing maintenance of up-to-date token information. The success of this standard will largely depend on the willingness of major players in the ecosystem to adopt and support it.
+
+Looking forward, ERC-6734 could serve as a catalyst for further standardization efforts in the Ethereum ecosystem. As the blockchain space continues to evolve, standards like this will be crucial in ensuring that innovation doesn't come at the cost of fragmentation or increased complexity for end-users. The proposal of ERC-6734 also reflects the maturing nature of the Ethereum ecosystem. It demonstrates a shift from rapid, sometimes chaotic innovation to a more structured, standardized approach that considers the long-term health and sustainability of the network. This maturation is essential as Ethereum and its associated technologies move closer to mainstream adoption.
+
+Ultimately, the success of ERC-6734 will be measured by its adoption and the tangible improvements it brings to the Ethereum ecosystem. If widely implemented, it has the potential to simplify development processes, enhance user experiences, and foster greater interoperability between different blockchain networks. This could, in turn, accelerate the development of more complex and powerful decentralized applications, particularly those that leverage multiple Layer 2 solutions.
+
+As the proposal moves through the EIP process, it will likely undergo further refinements based on community feedback and real-world implementation challenges. This iterative process is crucial in ensuring that the final standard meets the needs of the diverse Ethereum ecosystem while remaining flexible enough to adapt to future developments.
+
+Thank you for reading.

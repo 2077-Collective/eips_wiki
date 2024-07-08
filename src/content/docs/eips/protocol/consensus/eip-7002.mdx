@@ -1,0 +1,81 @@
+---
+title: EIP-7002
+author: Wisdom
+description: Execution layer triggerable exits
+---
+
+EIP-7002 is  a proposal that makes it easier for stakers to exist validators from the Beacon Chain with the withdrawal credentials.  It was proposed to make the staking experience for users to be better and refine the Proof of Stake Consensus mechanism after the merge ans solving some problems like : Solo staking and DVT (Distributed Validator Technology) staking.
+
+**Definition of EIP-7002**
+
+EIP-7002 is a proposal that introduces a mechanism to allow stakers to exist validators from the Beacon Chain using the withdrawal credentials instead os relying on the validators signing key to trigger exist operations. The new exist messages are appended to the execution layer and processed by the consensus layer.
+
+ 
+
+**Importance of EIP-7002 to the Ethereum Ecosystem.**
+
+The benefits of implementing execution layer triggerable withdrawals via EIP-7002 to the Ethereum ecosystem are : 
+
+- EIP-7002 reduces staking centralization.
+- EIP-7002 mitigates validator cartelization.
+- EIP-7002 improves staking staking economics and user experience
+- EIP-7002 enhances simplicity, security and decentralization of delegated and multi-party staking operations.
+
+**Brief History of EIP-7002**
+
+EIP-7002 was proposed by Danny Ryan,  Mikhail Kalinin ,  Ansgar Dietrichs , Hsiao-Wei Wang , lightclient on the 9th of May, 2023.  This proposal falls under the 'core' category of EIPs. It is under the status “ Draft “. EIP-7002 was proposed to bring about better staking experience to users. EIP-7002 was proposed to solve “staking issues” which arose due to the Merge.
+
+**Definition and Rationale behind EIP-7002**
+
+Ethereum transition from Proof of Work to Proof of Work a.k.a., The merge was a key moment in the network’s history. This huge change brought about alot of benefits and changes to the Ethereum ecosystem as well as some downsides. EIP-7002 was proposed to solve “staking issues” which arose due to the Merge.  Key considerations that went into the development of EIP-7002 are :
+
+- EIP-7002 makes it so that stakers must not trust validators before they could pre-sign exist messages.
+- EIP-7002 introduces a stateful **validator exist precompile** that maintains a queue of validators exist messages orignated from the execution layer.
+- EIP-7002 improves the management of staking pools and DVT setups.
+
+**Technical Overview of EIP-7002**
+
+EIP-7002 fixes the principal-agent problem in delegated staking—where stakers must trust validator node operators to pre-sign exit messages, or honor future exit requests—by introducing a new voluntary exit operation that can be triggered with a validator’s withdrawal credential. This empowers stakers to withdraw staked ETH without relying on the entity holding the validator’s signing key (i.e., the staking service in a delegated staking setup) to process withdrawals.
+
+EIP-7002’s key feature is the introduction of a stateful **validator exit precompile** that maintains a queue of validator exit messages originating from the execution layer. At intervals, a number of exit messages are removed from the queue and added to the execution payload of a Beacon Chain block. This allows exit messages from the execution layer to be “injected” into the consensus layer and processed as part of Beacon Chain operations—similar to how deposits originating from the deposit contract are passed from the execution layer to the consensus layer for processing.
+
+Exit messages are regular Ethereum transactions with the validator precompile address as the target and indicate intent to exit a validator (identified by its public key). A validator exit message   is valid if (a) it is signed by the Ethereum address referenced in the validator’s execution-layer (`0x01`) withdrawal credential (b) the validator to be exited is active on the Beacon Chain. These checks are executed by the consensus layer *after* the exit message makes its way to the Beacon Chain; the validator exit precompile only confirms if an exit transaction pays enough gas at the time the exit precompile is called by a staker.
+
+All execution-layer exits are processed the same way as a regular voluntary exit operation triggered from the consensus layer, which preserves invariants around the maximum allowable exits from the active validator exits. EIP-7002’s in-protocol mechanism for transferring exit messages between execution and consensus layers also removes the need for connections to a consensus node to trigger exits (which is required for withdrawing validators with pre-signed exit messages). Validators can now be funded and exited from the same execution-layer address, which explains the naming of the EIP as “Execution-Layer Triggerable Exits”.
+
+**Advantages of EIP-7022**
+
+The advantages of EIP-7002 are as follows :
+
+- **Reduced Trust Assumptions in delegated staking** :  The definiton from Vitalik Buterin Trust Models article sums it up nicely:  **“Trust is any assumption(s) you make about the behavior of other people**.” Going by this, EIP-7002 does not totally remove the trust element in delegated staking rather- stakers need to still trust node operators not to execute a griefing attack, but allowing stakers to withdraw with their withdrawal credentials reduces the trust element to some point
+- **Better risk management of staking pools** : EIP-7002 brings about better management of staking pools as staking pools in general reduces trust assumptions by introducing execution layer triggerable exists which allows a stakibg pool to forcefully exist a validator node operator without relying on pre-signed messages.
+- **Better management of DVT setups:** EIP-7002 provides a fallback safety option for distributed validators by allowing validators to be exited with siging  of withdrawal keys if reconstruction is infeasible.
+
+Other advantages of EIP-7002 to the Ethereum ecosystem are:
+
+- Better regulatory compliance.
+- Better staking experience.
+
+**Potential Challenges and Limitations**
+
+Are there any potential drawbacks of EIP-7002? Well sure, All though it may seem as a perfect proposal, it is good to check out its drawbacks.
+
+They are:
+
+- Lack of support for more EL to CL messages
+- Dependence on other EIPs for addditional functionality
+- Upgrade can not be done on a whim as it requires client developers to collectively agree on it since it is a precompile and needs to be implemented during a hardfork.
+- EIP-7002 exposes the validator precompile to denial-of-service attacks, spamming.
+- EIP-7002 increases the complexity of existing staking designs.
+
+**Future Improvement**
+
+At the time of writing this wiki, there has been no new information on whether there will be an upgrade to EIP-7002. We will be sure to keep this wiki updated.
+
+**Conclusion** 
+
+In conclusion, EIP-7002 played a crucuial role in the Ethereum ecosystem by solving the issues that arose due to The merge, making it easier for stakers to exist validators using withdrawal credentials. 
+
+EIP-7002 achieves this goal by making `0x01` withdrawal credentials capable of exiting validators and withdrawing stake and reducing the need for stakers to trust a node operator’s honesty.
+
+EIP-7002 also has other  positive spillover effects. In particular, improving the resilience and security of solo staking operations and distributed validators—by enabling better recovery from loss of a validator key or DVT keyshares—should reduce the barrier to solo staking and reduce stake centralization on Ethereum

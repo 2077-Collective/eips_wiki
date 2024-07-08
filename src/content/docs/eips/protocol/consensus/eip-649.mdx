@@ -1,0 +1,75 @@
+---
+title: EIP-649
+author: Wisdom
+description: Metropolis Difficulty Bomb Delay and Block Reward Reduction
+---
+
+Written by: {frontmatter.author}
+
+EIP-649 was proposed to delay the difficulty bomb and reduce the block rewards for miners to make the process for switching from Proof of Work  mechanism to the Proof of Stake mechanism easier.
+
+**Definition of EIP-649**,
+
+EIP-649 was part of the Byzantium hard fork that introduces a delay to the difficulty bomb for 18 months and also reduce block reward for miners. It was proposed to make miners move away from the Proof of Work consensus mechanism to the Proof of Work consensus mechanism as it made mining more difficult for miners. 
+
+**Importance of EIP-649 to the Ethereum Ecosystem.**
+
+EIP-649 also referred to as “ Metropolis Difficulty Bomb Delay and Block Reward Reduction “ has significant importance to the Ethereum ecosystem :
+
+- **Difficult Bomb Delay** : EIP-649 aims to increase the mining difficulty for Ethereum when it used  Proof of Work consensus mechanism as it was done make to the Etrhereum network unminable to some point unless the migration for the current Proof of Stake mechanism that it uses, It was made to make the network secure and operational during the transition.
+
+- **Block Reward Reduction** : This EIP proposed a method to control Ethereum's inflation. It suggested reducing the block reward to a base of 3 ETH, in order to balance Ether supply and demand within the ecosystem. The rewards for both uncle and nephew blocks were adjusted accordingly.
+    
+    `Note :  Uncle block reward is the reward given to block that is not added in the current block but it’s part of the blockchain.`  
+    
+    `Nephew block reward is the reward given to an uncle block included in the next block after being orphaned.`  
+    
+
+**Brief History of EIP-649** 
+
+EIP-649 was proposed by Afri Schoedon, Vitalik Buterin on June 21, 2017.  This proposal falls under the 'core' category of EIPs. It is under the status “ FInal “. EIP-7044 was proposed to bring about reduction in block rewards for miners and delay in difficulty bomb. This EIP was part of the Byzantium hard fork.
+
+This proposal  was previously discussed at All Core Devs Meeting [#09](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%209.md#metropolis-timing-and-roadmap-discussion), [#12](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2012.md#5-metropolis-update), [#13](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2013.md#3-eip-186-reduce-eth-issuance-before-proof-of-stake-hudson), and [#14](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2014.md#1-eip-186-reduce-eth-issuance-before-proof-of-stake-core-devs). Consensus on the specification was achieved in All Core Devs Meeting [#19](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2019.md) and specification drafted in EIP issue [#649](https://github.com/ethereum/EIPs/issues/649). It was decided to replace EIP [#186](https://github.com/ethereum/EIPs/issues/186) and include the block reward reduction along with the difficulty bomb delay in All Core Devs Meeting [#20](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2020.md) and [#21](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2021.md); accepted in [#22](https://github.com/ethereum/pm/blob/master/AllCoreDevs-Meetings/Meeting%2022.md).
+
+**Development and Rationale behind EIP-649** 
+
+The rationale behind the EIP-649 that leads to the proposal and development revolves around delaying the difficulty bomb which increases the average block time and reducing the block rewards being given to miners to decrease the likelihood of a miner driven chain split as Ethereum approaches Proof of Stake. This proposal was pushed further to bring about a smooth transition from the Proof of Work consensus mechanism to the Proof of consensus mecahanism and also to control the inflation of ETH price in the Ethereum ecosyset. This proposal was proposed by  Afri Schoedon, Vitalik Buterin  and it is currently in the “Final” status which means : it exists in the final state and should be only updated after correction of the bugs and also add non-normative clarifications.
+
+**Technical Overview of EIP-649** 
+
+EIP-649, titled "Metropolis Difficulty Bomb Delay and Block Reward Reduction," introduces significant changes to the Ethereum network to address the increasing block times caused by the difficulty bomb and to adjust the block rewards. Here's a technical overview of the key aspects of EIP-649:
+
+- **Adjustment of Block Rewards :** The base reward for each block was reduced to 3 ETH after the Byzantium fork. This adjustment applies when the block number is greater or equal to the `BYZANTIUM_FORK_BLKNUM` . Before this condition is met, all rewards remains constant and pre-existing rules still stands. For the Uncle block reward, the calculation is done using the `new_block_reward` instead of `block.reward`, Thus the formular is :
+    
+    `new_uncle_reward =(8 - k) * new_block_reward / 8` 
+    
+    More so, For  the Nephew block reward, the calculation is done using the `new_block_reward` instead of `block.reward`, Thus the formular is :  
+    
+    `new_nephew_reward = new_block_reward / 32`.
+    
+- **Difficulty Bomb Delay :**  In the implementation of the difficulty bomb delay in the Byzantium fork, This proposal introduces a concept of using “fake” block number that is used in the calculation. This approach suggests that the client is adjusting around 3 million blocks later than the former fork. This adjustment effectively delays the difficulty bomb by approximately 42 million seconds, aiming to return block times to around 30 seconds by the end of 2018.
+    
+    The calculation for the difficulty bomb involves replacing the `block.number` with `fake_block_number`, Here’s the formular :
+    
+    `fake_block_number = max(0, block.number - 3_000_000) if block.number >= BYZANTIUM_FORK_BLKNUM else block.number` 
+    
+
+**Advantages of EIP-649**
+
+The advantages of EIP-649 are as stated below :
+
+- EIP-649 prevents chain splitting by reducing the reward for miners.
+- EIP-649 aims to control the rapid acceleration of inflation of ETH price by reducing the rewrd for miner’s to a base of 3 ETH
+- EIP-649 encourages the adoption of Proof of Stake mechanism through the reduction of miner’s reward.
+
+**Potential Challenges and Limitations**
+
+There are no observed potential challenge introduced by the proposed EIP-7044
+
+**Future Improvements**
+
+At the time of writing this wiki, there has been no new information on whether there will be an upgrade to EIP-7044. We will be sure to keep this wiki updated.
+
+**Conclusion** 
+
+EIP-649, titled "Metropolis Difficulty Bomb Delay and Block Reward Reduction," played a pivotal role in the Ethereum network's evolution by addressing critical issues related to the difficulty bomb and block rewards. By delaying the difficulty bomb, it prevented a potential chain split and ensured network continuity, giving the community more time to prepare for the transition to Proof-of-Stake (PoS). The reduction in block rewards to 3 ETH helped control inflation. Through these measures, EIP-649 demonstrated the effectiveness of community-driven decision-making in blockchain governance.
