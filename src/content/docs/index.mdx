@@ -2,6 +2,7 @@
 title: EIP Wiki By 2077 Collective
 description: The ultimate resource on Ethereum Improvement Proposals (EIPs) for research nerds.
 template: splash
+author: Fisayo
 hero:
   tagline: The ultimate resource on Ethereum Improvement Proposals (EIPs) for research nerds.
   image:
@@ -17,6 +18,268 @@ hero:
 ---
 
 import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+# What is an EIP?
+
+**Written by {frontmatter.author}**
+
+It is a well-established premise that blockchains are dynamic in nature. This ever changing
+nature of blockchains has generated concerns and questions as to how exactly these changes
+are initiated and implemented. This article attempts to in some measure, answer these questions
+through an examination of the concept of Ethereum Improvement Proposal. This would be achieved
+through a definition of the concept, an appraisal of its types and characteristics as well as a
+review of the process for drafting and implementing these proposals.
+
+## What are EIP’s?
+
+Ethereum improvement proposals, as the name implies, basically refers to documents that propose
+changes or modifications to any segment of the Ethereum network with the aim of enhancing its
+functionality. These documents must follow a standardized format and can suggest alterations or
+enhancements to various parts of the Ethereum network.
+
+A practical example would be a proposal which suggests a shift of the native token of Ethereum
+from ETH to KEI (this is an imaginary token created for the purpose of this article).
+This proposal would however have to state why this shift is necessary, how it would positively
+affect the network and follow a strict set of guidelines and procedures that would be later examined
+in this article.
+
+That being said, the next step on our journey to understanding EIP’s involves a brief examination of
+the history of EIP’s
+
+## History of EIP’s
+
+The EIP process was inspired by the Bitcoin Improvement Proposal (BIP) system, which provided a formal
+mechanism for introducing and discussing changes to the Bitcoin protocol. Ethereum developers
+acknowledging the success and utility of BIPs, decided to adopt a similar approach to manage the
+growth and development of Ethereum. This led to Fabian Vogelsteller, a key figure in the Ethereum
+community, authoring EIP-1 in 2015. This foundational document outlined the guidelines and structure
+for submitting, discussing, and approving EIPs.
+
+EIP-1 serves as the EIP for EIP’s, describing the EIP process itself and providing a template for future
+proposals. Since the authoring of EIP-1, several EIP’s have been implemented, notable amongst these are;
+
+**EIP-20 (ERC-20)**: One of the earliest and most influential EIPs, proposed by Fabian Vogelsteller in the
+latter part of 2015. It defined a standard interface for fungible tokens. The ERC-20 standard facilitated
+the creation of a wide variety of tokens on the Ethereum blockchain, sparking the initial coin offering
+(ICO) boom and enabling a new wave of blockchain projects.
+
+**EIP-1559**: This was Implemented in August 2021 and it introduced a new transaction fee model, improving
+fee predictability and reducing inflationary pressure on ETH.
+
+It is clear from the above that the origins and early development of Ethereum Improvement Proposals were
+rooted in the need for a structured and collaborative approach to evolving the Ethereum blockchain. This
+approach has enabled Ethereum to attain rapid and continuous evolution while still retaining its stability
+and security i.e it has allowed the Ethereum blockchain to develop at a rapid rate with relatively little risk.
+
+Now that we know what EIP's are and how they came into existence, it's important that we examine the
+classification of EIP's as this would solidify our understanding of the concept.
+
+According to EIP-1, there are three major types of EIP's;
+
+**1** - **Standard Tracks EIP's**: These are changes that affect the core functionality of the Ethereum network.
+They often involve consensus changes, which means they require all nodes to update their software to stay
+in sync with the network, in other words, a lot of standard track EIP's often lead to soft or hard forks.
+An example of this is the earlier stated EIP-1559. Although the implementation of this EIP did not lead to
+the creation of a new blockchain, it allowed only updated nodes to validate transactions and take part in
+the consensus process.
+
+Standard track EIP's are however  not limited to only improvements which result in consensus forks. Proposals
+outlining the implementation procedures for changes to Ethereum's codebase as well as proposals which suggest
+modifications to method names and operation codes also fall under standard track EIP's. EIP-1 subdivided
+standard track EIP's into 4 categories;
+
+* **Core**: These are changes that affect the core functionality of the Ethereum network. They often involve
+consensus changes, which means they require all nodes to update their software to stay in sync with the
+network. Examples include changes to the Ethereum Virtual Machine (EVM) or modifications to the protocol
+rules. EIP-1559 is a practical example of this sub divisio of standard track EIP's.
+
+* **Networking**: These EIPs propose changes to network protocols and communication methods used by Ethereum
+nodes. They focus on how nodes interact and exchange data. This might come in form of a proposal which
+suggests an improvement to the peer-to-peer (P2P) networking layer that helps with data propagation and node
+connectivity.
+
+* **Interface**: These involve changes to application programming interfaces (APIs) and standards for client
+applications, such as wallets and decentralized applications (dApps). They aim to improve how applications
+interact with the Ethereum blockchain. For instance, :a proposal which suggests the standardization of the
+API's for smart contracts to ensure compatibility and interoperability between different dApps.
+
+* **ERC (Ethereum Request for Comments) EIPs**: These propose standards for Ethereum applications, primarily focusing on smart contracts
+and tokens. ERCs aim to ensure that different Ethereum-based applications can work together smoothly. A popular
+example is ERC-721 which defines the standard for non-fungible tokens (NFTs), that represent unique digital
+assets like collectibles and art.
+
+**2** - **Meta EIP's**: As the name implies, these proposals do not introduce changes to the Ethereum code itself but
+suggest changes to the processes and guidelines around EIP development and community decision-making. They
+focus on improving the governance and management of the Ethereum improvement process. They are basically
+EIP's regulating and specifying the format of EIP's. The first ever EIP (EIP-1) is an example of this type
+of EIP.
+
+**3**. **Informational EIP's**: These are EIP's that do not propose any change. They focus on the provision of guidelines,
+information, or best practices to the Ethereum community. In addition to this, they share insights, recommendations,
+or technical details that can help developers and users.
+
+An example of this would be a document which explains the implementation details of certain features or provides advice on
+security practices for smart contract development.
+
+It might be important to note that these are the most uncommon form of EIP's and they are only six EIP's of this kind as of
+the time of writing this article.
+
+## Importance of EIP's
+
+If you've read the article up until here, a picture as it relates to the importance and necessity of EIP's should have started
+forming in your mind. This portion of the article therefore serves to solidify that image through a concise but thorough analysis
+of the pertinence of EIP's. The following are reasons why EIP's are crucial to the continued development and functionality of the
+Ethereum blochchain;
+
+1. **Structured Development**: EIPs offer a structured way to introduce new features, fix bugs, and improve the protocol.
+By providing detailed documentation and a clear path from proposal to implementation, EIPs help ensure that changes are thoroughly
+vetted and tested before being adopted. In addition to this, this structured process ensures that any changes undergo thorough
+scrutiny and testing before being adopted, which helps maintain the network’s stability and security.
+
+2. **Community Involvement**: EIPs are open to anyone in the Ethereum community, fostering a collaborative environment. Developers,
+users, and stakeholders can propose, discuss, and refine ideas, ensuring that multiple perspectives are considered. This inclusivity
+helps build consensus and aligns the community on key decisions.
+
+3. **Transparency and Accountability**: The EIP process is transparent, with all proposals publicly available for review and discussion.
+This transparency promotes accountability, as developers and the community can track the progress of proposals, understand the rationale
+behind decisions, and verify that changes are made based on sound reasoning and community agreement.
+
+4. **Standardization**: EIPs, particularly those focused on standards like ERCs (Ethereum Request for Comments), help create uniform
+protocols for things like tokens and smart contracts. These standards are crucial for interoperability, allowing different applications
+and services on the Ethereum network to work together seamlessly. For instance, the ERC-20 and ERC-721 standards have been fundamental
+in the widespread adoption of fungible and non-fungible tokens, respectively.
+
+5. **Innovation and Evolution**:  EIPs drive continuous innovation by providing a formal mechanism for introducing cutting-edge ideas
+and technologies to the Ethereum network. This process allows Ethereum to adapt to new challenges and opportunities, maintaining its
+position as a leading blockchain platform. In other words EIP's has provided Ethereum a platform from which they can constantly and
+continuously adapt to any difficulties encountered in the course of the development of the Ethereum blockchain.
+
+Next up is an overview of the EIP process. The EIP process is the process EIP's  follow from drafting to implementation. It shares a
+few features with the regular legislative process as they both go through various reviews before being approved and implement.
+
+## The EIP Process
+
+The EIP process was stated in EIP-1. It outlined the following as the procedure an EIP must follow before gaining approval;
+
+**The Idea Stage**: In this stage a member of the Ethereum community comes up with an idea for improving the network. For instance,
+a developer might think of a new way to reduce transaction fees.
+
+**Drafting the Proposal**: In this stage, the person with the idea writes a detailed proposal following a specific format. It is at
+this stage that the actual Ethereum Improvement Proposal (EIP) is written. Keeping in line with our previous example, the developer
+would at this stage, write  an EIP describing the new transaction fee mechanism, explaining how it works and why it’s beneficial.
+
+**Review**: This review occurs before the formal submission of the proposal. The proposal doesn't necessarily have to undergo this process
+but it's often very beneficial. This stge can be furthered divided into the following categories;
+
+**Discussion and Feedback**: The draft EIP is shared with the community for feedback. This discussion usually happens on forums, mailing
+lists, or other communication channels. At this stage other developers and community members review the EIP, ask questions, suggest improvements,
+and point out potential issues.
+
+**Revision**: Based on the feedback, the EIP author revises the proposal to address concerns and incorporate suggestions. At this stage,  our
+instant developer updates the EIP to include more details on how the new fee mechanism would be implemented and how it addresses security concerns.
+
+**Formal Submission**: Once the proposal is refined, it’s formally submitted for consideration. It’s assigned an EIP number and added to the EIP repository
+on GitHub. At this, the new transaction fee mechanism proposal which our developer drafted would be assigned an EIP number e.g EIP-2077.
+
+**Review and Approval**: The EIP is reviewed by editors and, if it’s a major change, by the Ethereum core developers. They decide whether the proposal should
+be accepted, rejected, or need further revisions. This is also known as the last call stage.
+
+Going back to our example, the core developers would review EIP-2077, conduct tests, and agree that it’s a beneficial change for the network.
+
+**Final Stage:** The final stage is involved majorly with the  implementation of the EIP.: If the EIP is approved, it is implemented in the Ethereum software.
+This can involve updating the code, running tests, and coordinating with network participants to adopt the change.
+
+In our example, the developers would update the Ethereum software to include the new fee mechanism, and nodes (computers in the network) would proceed to upgrade
+to the new version.
+
+It should be noted that a proposal moving from the last call stage should contain no changes to the content of the proposal.
+
+Other terminologies that are relevant to this process include;
+
+**Stagnant**: A proposal is termed as stagnant when it remains in the draft, review or last call stage for a period of 6 months or more. A proposal can be resurrected
+by moving it back to the earlier stage by authors or editors. For instance a proposal which became stagnant at the last call stage would be moved back to the review
+stage to resurrect it. If a proposal is not resurrected it could remain stagnant for life.
+
+**Withdrawn**: These are EIP proposals that are withdrawn by the authors. Once an EIP is withdrawn z such a withdrawal is final and it can no longer be resurrected.
+If the authors attempt to pursue the idea at s later date it would have to be assigned a new EIP number.
+
+**Living**: This is a status attached to special types of EIP's that are not intended to attain a status of finality but are to updated continually. A prime example
+of this is EIP-1 as the procedure and format for EIP's have undergone modifications since the initial publication of EIP-1 in 2015.
+
+## EIP Format
+
+It was stated are the beginning of this article that EIP's have to adhere to a strict format as regards their structure. This is done to ensure
+consistency and clarity of EIP'S which are implemented and would eventually affect the network. The format which must be adhered to is as follows;
+
+1.**Preamble**: The preamble must contain;
+
+  * **The EIP Number**: That is the unique identifier number for the EIP.
+
+  *  **Title**: A concise and descriptive title for the EIP.
+
+  *  **Author(s)**: The name(s) and contact information (usually email or GitHub handle) of the author(s) must be provided
+
+  *  **Status**: The current status of the EIP (e.g., Draft, Review, Final) should also be stated in the preamble.
+
+  *  **Type**: The specific type which the EIP  being proposed belongs to i.e (Standards Track, Meta, or Informational).
+
+  *  **Category**: For Standards Track EIPs, the category (Core, Networking, Interface, ERC).
+
+  *  **Created**: The date when the EIP was created.
+
+  *  **Updated**: The date when the EIP was last updated.
+
+2.**Abstract**: Following the preamble, a brief (~200 word) description of the technical issue being addressed and the
+proposed solution should follow
+
+3.**Motivation**: An explanation of why the EIP is necessary, including the problem it solves and the benefits it provides
+comes next. It should be noted that it is not necessary for this to be included in the proposal.
+
+4.**Specification**: The technical details of the proposal, including precise algorithms, data structures, and other relevant
+technical details comes immediately after the section stating the motivation for the proposal. This section should be detailed
+enough to allow for implementation without ambiguity.
+
+5.**Rationale**: Next is a break down of the design choices made, including why specific approaches were taken over others.
+This section should also discuss alternatives that were considered and reasons for rejecting them.
+
+6.**Backwards Compatibility**; Discussion of how the proposed changes affect backward compatibility and what steps, if any,
+are required to maintain compatibility with previous versions comes next. In other words this section states whether or not
+the proposed update would result in a fork (whether harf or soft) and discusses the overall effect of the proposal on the network
+
+7.**Test Cases**: This step is also optional. It utilizes examples and test cases to demonstrate the correctness of the implementation.
+This helps developers and users understand the expected behavior of the proposal.
+
+8.**Implementation**: Similar to test cases, this section is also optional. If included, it details the implementation status and any
+existing code or reference implementations.
+
+9.**Security Considerations**:  In this section, the proposal details an analysis of the security implications of the proposal,
+identifying potential risks and explaining how they are mitigated.
+
+10.**Copyright Waiver**- Lastly, it is necessary that All EIPs are in the public domain. Accordingly, all EIP's must contain a
+copyright waiver.The copyright waiver MUST link to the license file and use the following wording: Copyright and related rights
+waived via [CC0](/LICENSE).
+
+For a more detailed guideline on the format of EIP's here, check [here](https://eips.ethereum.org/EIPS/eip-1#eip-types)
+
+By following this structured format, EIPs ensure that proposals are clearly communicated and comprehensively evaluated, facilitating informed discussion and decision-making within the Ethereum community.
+
+**Challenges Associated with EIP's**
+
+The last thing which shall be examined in this article are the challenges with developers face in the implementation of EIP's The implementation of EIP's might present a developer with several challenges.
+
+One significant challenge is achieving consensus within the decentralized Ethereum community. Given the diverse stakeholders, including developers, miners, and users, aligning interests and priorities can be difficult. This often leads to extended discussions and delays in finalizing and adopting proposals.
+
+Another challenge is the technical complexity of many EIPs. Proposals often require in-depth understanding of blockchain technology and Ethereum's architecture, which can limit meaningful participation to a small group of experts. This complexity also makes it harder to predict the full impact of changes, potentially introducing unforeseen issues.
+
+Security is another critical concern. Any change to the Ethereum protocol must be rigorously analyzed for potential vulnerabilities. Even minor oversights can lead to significant security risks, as seen in past incidents like the DAO hack. Ensuring robust security analysis and testing is time-consuming but essential.
+
+Backward compatibility and network disruption are also significant challenges. Implementing EIPs, especially those requiring hard forks, can cause temporary network instability and require coordinated efforts from all node operators to upgrade their software simultaneously.
+
+Lastly, there is the challenge of community coordination and communication. Keeping the broader community informed and engaged throughout the proposal, discussion, and implementation phases is crucial but challenging, requiring transparent and effective communication strategies.
+
+**Conclusion**
+
+In conclusion, Ethereum Improvement Proposals are a crucial mechanism for enhancing and governing the Ethereum blockchain. They allow developers and community members to propose, debate, and implement changes in a structured and transparent manner. EIPs ensure that Ethereum can evolve, address emerging needs, and maintain its security and efficiency. They foster community collaboration, set vital standards for interoperability, and drive innovation. Despite challenges like achieving consensus and managing technical complexities, EIPs are fundamental to Ethereum’s continuous improvement and long-term success, enabling it to adapt and thrive in the rapidly evolving blockchain landscape.
 
 ## Start exploring EIPs
 
