@@ -7,7 +7,7 @@ Hey, this is the 2077 Collective guideline for writing articles for the EIP wiki
 
 ## What is the EIPwiki?
 
-The EIP wiki is a database that contains *Investopedia* or *Binance Academy* style articles on Ethereum Improvement Proposals (EIPs). I assume some familiarity with EIPs, but if you don’t know what those are and want to contribute, you can start with the ([first article](https://eips.wiki/)) that will go up on the website—What is an EIP/ERC?
+The EIP wiki is a database that contains *Investopedia* or *Binance Academy* style articles on Ethereum Improvement Proposals (EIPs). I assume some familiarity with EIPs, but if you don’t know what those are and want to contribute, you can start with the ([first article](https://eips.wiki/eips/get-started/)) that will go up on the website—What is an EIP/ERC?
 
 The overarching goal of the EIPwiki is to provide a hub of easy-to-digest explainers of what every single EIP/ERC is and what it does. The goal of each article is for the reader to leave with a high level overview of what that EIP/ERC is and does. I’ll soon breakdown what we’re looking for in an EIPwiki article but you should have it in the back of your mind that the EIP wiki articles are “goldilocks” articles:
 
