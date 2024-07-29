@@ -14,6 +14,16 @@ export default defineConfig({
 				github: 'https://github.com/2077-Collective',
 				discord: 'https://discord.gg/2077Collective',
 			},
+            head: [
+                    {
+                      tag: 'script',
+                      attrs: {
+                        src: 'https://plausible.io/js/script.js',
+                        defer: true,
+                        'data-domain': 'eips.wiki',
+                      },
+                    },
+            ],
             customCss: [
                 '@fontsource-variable/orbitron',
                 './src/styles/global.css'
