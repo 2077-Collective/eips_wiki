@@ -18,7 +18,7 @@ export default defineConfig({
                     {
                       tag: 'script',
                       attrs: {
-                        src: 'https://plausible.io/js/script.js',
+                        src: 'https://plausible.io/js/script.outbound-links.js',
                         defer: true,
                         'data-domain': 'eips.wiki',
                       },
