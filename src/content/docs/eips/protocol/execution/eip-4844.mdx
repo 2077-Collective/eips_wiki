@@ -1,0 +1,124 @@
+---
+title: EIP-4844
+author: Marko Dayan
+description: This proposal introduces a new transaction type that can handle large amounts of data temporarily
+---
+
+Written by: {frontmatter.author}
+
+
+![image](https://res.cloudinary.com/dc2iz5j1c/image/upload/v1722443369/EIP_4844_COVER_hwtg4k.webp)
+
+EIP-4844, also known as “Proto-Danksharding” or “Blob-carrying transactions,” is a crucial Ethereum Improvement Proposal aimed at significantly enhancing the scalability of Ethereum's layer 2 solutions. This proposal introduces a new transaction type that can handle large amounts of data temporarily, paving the way for reduced fees and increased throughput for rollups.
+
+## Introduction
+
+Ethereum's journey towards scalability has been a long and complex one. While the transition to Proof-of-Stake with The Merge was a significant milestone, it didn't directly address Ethereum's scalability challenges. Layer 2 solutions, particularly rollups, emerged as a promising approach to scale Ethereum. However, these solutions were constrained by the high costs of storing data on the Ethereum mainnet.
+
+EIP-4844 was proposed in early 2022 as an interim step towards full data sharding, addressing the immediate need for more cost-effective data availability for rollups. It represents a crucial evolution in Ethereum's scaling roadmap, bridging the gap between the post-Merge Ethereum and the fully sharded version envisioned for the future.
+
+## What is EIP-4844?
+
+EIP-4844 introduces a new type of transaction to Ethereum called a “blob-carrying transaction.” These transactions can carry large amounts of data (“blobs”) that are cheaper to store than regular calldata, but are not directly accessible to the Ethereum Virtual Machine (EVM).
+
+A “blob” (Binary Large Object) is a large chunk of data that is committed to, but not directly stored, in the Ethereum block body. Instead, the blob data is stored separately in a new data structure and is only temporarily available to the network nodes.
+
+This approach allows rollups to submit much more data per transaction, significantly reducing their operational costs and, by extension, the fees for end-users of layer 2 solutions.
+
+## How does EIP-4844 work?
+
+A blob is a 128kb binary object managed by Ethereum's consensus layer. Technically, it’s an array of 4096 field elements, each being a number between 0 and a very large value (approximately 2254.857). These field elements are individually packed into 32 bytes, resulting in the total 128kb size of the blob.
+
+A key feature of EIP-4844 is that blobs are pruned after approximately 18 days (4096 epochs = 131 072 blocks). This temporary but secure storage is sufficient for both optimistic and ZK rollups to verify their batches, while allowing for more efficient long-term storage management on the Ethereum network.
+
+— Wait, how can rollups prove their state if their smart contracts cannot access the blobs and those are temporary?
+
+This is possible because of the use of the KZG (Kate-Zaverucha-Goldberg) polynomial commitment scheme. This scheme allows creating short cryptographic proofs that a certain field element exists in the blob with a known 48-byte commitment (think of as a hash), but without revealing the blob itself. These proofs also allow to cheaply verify that a commitment corresponds to a certain known blob.
+
+This is how this technique is utilized in rollups:
+
+## Blobs in Rollups
+
+![image](/src/content/docs/eips/protocol/execution/images/image.png)
+** _My universal graphic of rollups workflow post-4844 from this article_ **
+
+## Optimistic Rollups
+
+Optimistic rollups utilize EIP-4844 blobs for fraud proving through the KZG polynomial commitment scheme. Instead of requiring full batch data on-chain for fraud proofs, optimistic rollups can utilize KZG proofs to contest only relevant parts of a blob, leaving the other parts of the blob untouched.
+
+EIP-4844 introduces a point evaluation precompile in the EVM, allowing on-chain verification of KZG proofs using just the commitment, the supposed field element, and the proof itself, totaling only 192 bytes. When challenging a state transition, a party identifies disputed data in the blob, generates a KZG proof for that specific point, and submits this to the L1 contract. The contract then verifies the proof using the on-chain commitment hash, the supposed data, and the provided proof, enabling efficient verification without needing the entire blob in the EVM.
+
+This method allows contesting a single incorrectly executed batch chunk rather than re-executing the entire batch on L1, significantly reducing data and computation needs for fraud proofs. Typically, batches are considered final after a challenge period (e.g., 7 days for OP Stack), during which any party can submit a fraud proof. Blob data remains available on L1 for a period (about 18 days) before pruning, comfortably covering the challenge period. Even after pruning, rollups can reconstruct their state using finalized output roots and P2P data fetching. 
+
+## ZK Rollups
+
+ZK rollups can use the KZG polynomial commitment scheme to generate short ZK proofs for the transaction data in the blobs. When generating validity proofs, ZK rollups can incorporate KZG proof verification inside their overall zero-knowledge proof, but since ZK proofs are used, they can use blob proofs for much more efficient verification. In this approach, the rollup generates a proof that a certain commitment corresponds to a known blob, which can be more efficient for larger data sets.
+
+The ZK rollup's prover constructs the validity proof using the blob data as private input, while only the versioned hash of the blob commitment, accessible from the EVM, is needed as public input. This allows the L1 contract to verify the correctness of the rollup's state transition without requiring access to the full blob data.
+
+The temporary nature of blob storage (pruned after about 18 days) aligns well with ZK rollups' needs, as once a validity proof is verified on L1, the underlying data is no longer necessary for the security of the system. This approach significantly reduces operational costs for ZK rollups, leading to lower fees for end-users while maintaining the strong security guarantees provided by zero-knowledge proofs.
+
+
+![image](/src/content/docs/eips/protocol/execution/images/image2.png)
+** _Two use cases of KZG_ **
+
+## Blobs in Ethereum
+
+Here’s what EIP-4844 has changed and added in the Ethereum protocol:
+
+** Blob-Carrying Transactions **
+
+EIP-4844 introduces a new transaction type called “blob-carrying transactions.” These transactions include two new fields:
+1. **max_fee_per_blob_gas**: This sets the maximum fee the sender is willing to pay per unit of blob gas. Blob gas is separate from regular EVM gas and follows an EIP-1559-like pricing mechanism.
+2. **blob_versioned_hashes**: These are the versioned hashes of the blob commitments. The version is indicated by the first byte (currently 0×01), followed by the SHA256 hash of the commitment.
+
+![image](/src/content/docs/eips/protocol/execution/images/image3.png)
+
+## New Fields in the Block Header
+
+EIP-4844 has added two new fields to the block header:
+**blob_gas_used**: How much blob gas was used in the block. Considering each blob costs 131072 gas and there can be at most 6 blobs, the limit is 786432 blob gas.
+**excess_blob_gas**: the counter of excess (>393216) blob gas usage in the latest blocks. Needed for EIP-1559-style calculation of blob gas price.
+
+Execution Layer uses these fields to validate the data related to new blob-carrying transactions in the blocks, introducing additional logic in the block validation workflow.
+
+![image](/src/content/docs/eips/protocol/execution/images/image4.png)
+
+## KZG Verification in the EVM
+
+While the full blob data isn't stored in the EVM, the commitment's hash is. EIP-4844 introduces a point evaluation precompile in the EVM, allowing for efficient verification of specific data within a blob. This precompile takes:
+- The commitment’s versioned hash (32 bytes)
+- The supposed field element’s data (32+32 bytes)
+- The blob’s commitment (48 bytes)
+- The KZG proof (48 bytes)
+Totaling 192 bytes, this allows the EVM to verify the existence of specific data in a blob without accessing the entire blob. The versioned hash can be retrieved from the EVM using the newly added BLOBHASH opcode.
+
+![image](/src/content/docs/eips/protocol/execution/images/image5.png)
+
+## Protocol Changes
+
+After EIP-4844, all nodes have to store all blobs in the block for 4096 epochs. In order to validate the block, nodes have to fetch all blobs P2P from the other nodes. To send a blob-carrying transaction in the network, it has to be wrapped into a packet that contains all necessary blobs, commitments, and blob proofs, to validate the block that will contain this transaction.
+
+![image](/src/content/docs/eips/protocol/execution/images/image6.png)
+
+![image](/src/content/docs/eips/protocol/execution/images/image7.png)
+
+## Goals and Benefits of EIP-4844
+
+- Improved DA Throughput and Costs: By providing a more efficient way to store data, EIP-4844 significantly increases throughput and reduces costs for rollups’ data, making layer 2 solutions more affordable for users.
+
+- Simplicity: EIP-4844 was relatively simple to implement and gave five- to ten-fold improvements to the rollups capacity. Impact-wise, it’s one of the most productive updates in today’s Ethereum.
+
+- Preparation for Danksharding: EIP-4844 has introduced necessary primitives and constructions to build data sharding solutions for Ethereum. By paving the way for further improvements, it stands as the most important upgrade for rollup-centric ecosystem today.
+
+## Drawbacks of EIP-4844
+
+- Complexity: Even though ZK rollups can operate with any kind of data commitments, including hashes, introducing KZG cryptography to the blobs was necessary for operation of optimistic rollups, currently forming the vast majority of the ecosystem. This created more complexity to the Ethereum’s codebase that could cause bugs in node implementations. Ethereum community is working on a set of upgrades, called The Purge, targeted at simplifying the Ethereum protocol and opening the door for more node implementations, improving client diversity.
+
+- Temporary Nature: The time-limited availability of blob data may pose challenges for some use cases that require longer-term data availability. However, this can be mitigated by using off-chain storage solutions, such as IPFS, Bittorrent, Filecoin, Arweave, and more. Moreover, the necessity for optimistic rollups to open long challenge periods created the need to store blobs for such a long time (18 days). ZK rollups, in turn, only need data for the time of proof generation, which is currently a few hours due to manual delays and can be as low as few minutes.
+
+## Conclusion
+
+EIP-4844 represents a critical advancement in Ethereum's scalability roadmap. By introducing blob-carrying transactions, it offers a pragmatic approach to significantly reduce costs and increase throughput for layer 2 solutions. While it's not the final answer to Ethereum's scaling challenges, it provides substantial immediate benefits and sets the stage for future improvements. As Ethereum continues to evolve, EIP-4844 stands as a testament to the network's commitment to incremental, yet impactful, upgrades in its quest for global-scale decentralized computing.
+
+Thank you for reading.
