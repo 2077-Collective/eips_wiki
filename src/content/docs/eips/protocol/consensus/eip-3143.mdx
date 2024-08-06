@@ -1,0 +1,104 @@
+---
+title: EIP-3143 Increase block rewards to 5 ETH
+author: Keima
+description: EIP-3143 proposes increasing Ethereum miner rewards from 2 ETH to 5 ETH to enhance network security and facilitate a smoother transition to Proof of Stake (PoS). Dive into the technical details, pros, and cons here.
+---
+
+Written by: {frontmatter.author}
+
+
+![image](https://res.cloudinary.com/dc2iz5j1c/image/upload/v1722948802/EIP_3143_lahtae.webp)
+
+## Introduction
+
+It's well known that blockchains are one of the most widely adopted forms of [decentralized finance (DeFi)](https://transak.com/blog/what-is-decentralized-finance-defi).
+
+DeFi in the sense refers to the fact that there is no central organization responsible for validating and updating transactions on blockchain networks.
+**What's less known, however, are the mechanisms through which these blockchains with the ultimate aim of “replacing trust with truth” function**.
+These mechanisms are referred to as consensus mechanisms and are the means through which the network comes to an agreement on the addition of blocks to the blockchain.
+
+On the Ethereum blockchain, the Proof of Work consensus mechanism had miners compete to solve complex
+mathematical problems using computational power. The first miner to solve the problem added the next block
+to the blockchain and earned a reward in Ether. This system ensured network security and integrity by making
+it difficult to record invalid or fraudulent transactions, thanks to the large number of participants validating
+transactions.
+
+It's important to note that the cryptocurrency reward which miners receive as a result of the addition of a
+new block to the network does not make up the total rewards they receive for the addition of a block.
+This is so as entire gas fee attached to a transaction was received by miners before the implementation of
+[EIP-1559](https://eips.ethereum.org/EIPS/eip-1559). After the implementation of EIP-1559, the [Priority Fee](https://ethereum.org/en/developers/docs/gas/) which constituted a part of the gas fee, went
+to miners.
+
+[EIP-3143](https://eips.ethereum.org/EIPS/eip-3143) is a proposal that suggests that the reward which miners receive for validating transactions and adding new blocks to the chain be increased to 5 ETH.
+This article examines the major technical details of this EIP, it's purpose and potential advantages and drawbacks.
+
+## What is EIP-3143?
+
+**EIP-3143 is an Ethereum Improvement Proposal that suggests that the rewards of miners be increased from 2 ETH to 5 ETH**. To be clear, this increase refers solely to the rewards provided by the network and
+is not in any way related to the portion of the gas fee that is received by miners.
+
+The individuals who proposed this EIP-highlighted two major reasons why its implementation would be advantageous to the Ethereum Network.
+
+**First, they observed that during periods of high network activity before the transition to ETH 2.0, the gas fees earned by miners often exceeded the network rewards.**
+
+As Ethereum wasn’t the only network using a PoW consensus mechanism, miners would switch to other networks with higher activity during low activity periods on Ethereum to maximize profitability. This behavior risked compromising Ethereum’s security during those low activity times.
+
+**Second, the increased block rewards would help smaller PoW miners accumulate enough ETH to become validators when Ethereum transitioned to a Proof of Stake (PoS) consensus mechanism.**
+
+In a PoS system, validators lock up or stake a certain amount of cryptocurrency as collateral. The more they stake, the higher their chances of being selected to validate transactions and update the network. This increase in rewards would thus support a smoother transition by ensuring more miners could participate as validators.
+
+The effect of this would be an increase in the number of validators with a resultant increase in the level of network security after the transition to PoS.
+
+**In a nutshell, EIP-3143 proposed the increase of incentives/rewards for miners to make mining more attractive with the ultimate aim of increasing the security of the Ethereum network.**
+
+For context's sake, it might be important to mention that this EIP-was implemented as a response of some sorts to a series of EIP's which increased the difficulty of mining blocks and reduced the reward for mining blocks. These EIP's were implemented with the aim of discouraging mining so as to facilitate Ethereum's transition to PoS. EIP-3143 intended to reverse some of the effects of these EIP's, specifically [EIP-649](/eips/protocol/consensus/eip-649) and [EIP-1234](https://eips.ethereum.org/EIPS/eip-1234)
+
+Note: **It is however very important to note that this EIP-was not implemented before Ethereum's transition to PoS in 2022**. This makes the possibility of the implementation of this proposal barring Ethereum's return to PoW impossible. This is so as the main Ethereum network already operates on a PoS consensus
+mechanism. This is most likely also be the major factor behind EIP-3143 receiving the “stagnant” status, which a status attached to EIP's that are yet to be implemented, indicating that there have been no discussions about the EIP-for the last 6 months or for a period greater than that.
+
+## Technical Details of EIP-3143
+
+EIP-3143 doesn't possess a lot of technicalities. It's major detail is the suggestion of an increase in  the reward for adding new blocks to the chain.
+However, those who want more details of it's technical specifications can check here.
+
+## Advantage of EIP-3143: Enhanced Network Security
+
+The potential advantages of EIP-3143 can be effectively summarized into one — **enhanced network security**.
+
+Increasing block rewards from 2 ETH to 5 ETH can significantly enhance network security by making mining more profitable. This attracts more miners, which raises the combined computational power of all miners.
+
+The increased combined computational power makes the network more resilient to attacks, particularly 51% attacks, which is a term for a scenario where a single entity could gain control of the majority of the network's mining power.
+
+By increasing the cost and complexity of such attacks, the network becomes more secure, ensuring that transactions are processed correctly and the blockchain remains tamper-proof. 
+
+In addition to this, an increase in block rewards would make it easier for miners to transition to validators, increasing the security of the network when it eventually transitions to PoS.
+
+## Drawbacks of EIP-3143
+
+### Devaluation of Existing ETH
+
+If mining rewards are increased, there is a proportional increase in the supply of available ETH. If this continues, it would eventually create an imbalance in the demand for and supply of ETH, with the effect of diluting the value of already existing ETH.
+
+### Prevention of the Transition to PoS
+
+This is most likely the major drawback of this EIP. Ethereum's transition to PoS was the primary reason for the decrease of the rewards for mining blocks from 5 ETH to 2 ETH in the first place.
+
+The Ethereum network in a means to discourage mining and prevent a block fork (a situation where the network would be simultaneously operating on a PoW and PoS consensus mechanism simultaneously) adopted several measures and among this was the reduction of block rewards.
+
+The implementation of this EIP-would serve to incentivize miners, further encouraging the act of mining. This would have been at direct odds with Ethereum's plan to transition to PoS which is believed to have been planned since the time of creation of the network.
+
+### Economic Imbalance
+
+The higher rewards may disproportionately benefit miners, creating economic imbalances within the Ethereum ecosystem and could if not curbed even result in centralization of the currency on the network which is against the fundamental principles of the blockchain.
+
+### Environmental Impact
+
+Another drawback of the Proof of Work (PoW) consensus mechanism is the amount of energy it consumes in its operations and the subsequent environmental impact of this energy consumption.
+
+An increase in mining incentives would result in an increase in the number of miners and an increase in damage done to the environment in the way of energy consumption.
+
+## Conclusion
+
+EIP-3143 aimed to enhance network security by improving miner incentives and the decentralization of the network and while its implementation possessed some potential advantages, its drawbacks seem to far outweigh its advantages.
+
+At the same time, it has been made unnecessary through the implementation of subsequent EIP's, particularly the EIP's which facilitated Ethereum's transition from a PoW to a PoS consensus mechanism.
