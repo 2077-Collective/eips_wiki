@@ -1,0 +1,182 @@
+---
+title: EIP-7045
+author: Wisdom
+description: Increase max attestation inclusion slot
+---
+
+Written by: {frontmatter.author}
+
+
+![image](/src/content/docs/eips/protocol/consensus/images/EIP-7045.webp)
+
+
+EIP-7045 is a proposal which increases the maximum inclusion slot for attestations from
+one rolling epoch to two non-rolling epochs. With this proposed change, validators have a
+longer period of time (up to 64 slots) to include attestations. By extending this time
+available for casting attestations for blocks, confirmation of blocks can be confirmed in a
+far more smooth and quicker manner given that attestations will be less likely to be discounted
+now compared to the previously more strict expiry conditions of the pre-EIP-7045 attestation
+inclusion window.
+
+## Introduction
+
+In the Ethereum blockchain, the attestation process takes approximately 6.4 minutes and it is a
+crucial process that validators must take every epoch ( An epoch is a specific period of time on
+the blockchain ). Before going further, Attestation is a vote from a validator in the blockchain
+network, expressing their view on the current blockchain state.
+
+During an epoch, validators propose an attestation to the network as this is done particularly to
+justify the legitimacy of the first and last block that was recently added in the current epoch.
+
+Before getting into what exactly EIP-7045 does, let’s take a step back and understand various
+different topics surrounding this change namely Ethereum’s consensus layer, block trees, and
+the attestation inclusion window.
+
+## Ethereum Consensus Layer
+
+The Ethereum consensus layer is made up primarily of two data structures which are:
+
+- Blocks
+
+- Attestations or Vote
+
+During every block period on Ethereum (post-Merge upgrade to PoS), one validator is elected as a
+leader to propose a block and thereafter a set of validators are required to vote
+(through broadcast of an attestation) for what block they see as being the head of the blockchain
+in a given slot.
+
+NOTE : <u>The “circles” directed at the blocks are messages that validators voted on a given slot to
+pick who the head of the chain is and the subsequent circles shows that the votes are included in
+the next block. Blocks reference their parents so the arrow points backward as time moves from left
+to right as the block are subsequent blocks.</u>
+
+![image](/src/content/docs/eips/protocol/consensus/images/image1.png)
+
+## Block tree
+
+Block trees are what makes up the blockchain. In block trees we can have conflicting proposals which
+means that for a given block we can have two potential descendants. Block trees are used to form the
+one single canonical history. So given a block tree ( as stated below), any of the green, blue and
+purple arrows pointing at the blocks- any could be the canonical blockchain depending on the view,
+algorithm, etc. Ethereum PoS uses the combination of two algorithm and they are:
+
+- Latest Message Driven - Greedy Heaviest Observed Sub Tree(LMD-GHOST): This deals with the tip of the chain
+
+- Friendly Finale Gathering ( FFG)  : This deals with finalizing checkpoints forever in history
+
+![image](/src/content/docs/eips/protocol/consensus/images/image2.png)
+
+LMD-GHOST for forkchoice uses a simple algorithm that takes these attestations where each assigns weight
+recursively to the branch so that we sum up the attestation to give the tip which then becomes the canonical
+chain. LMD-GHOST can “re-org” as soon as we get new information which then changes the block, attestations
+and find a new tip that has a different weight which means any chain at the tip is subject to change.
+
+This is where FFG comes in as it gives the opportunity to finalize checkpoints in a chain and once we finalize,
+it cannot be changed and any chain that is not included is the finality is no longer “ fair game “ and this
+does not give room for LMD-GHOST re-org.
+
+![image](/src/content/docs/eips/protocol/consensus/images/images3.jpg)
+
+## Attestation Inclusion Window 
+
+Attestations cannot be included forever as there is an inclusion window, So at slot N - this allows for
+attestation and from slot N + 1 to slot N + 32 - these attestation can be included as well can be included
+on chain. In most of the cases on mainnet, attestations are included in N + 1 but in very exceptional cases,
+these attestations can contain up to 32 slot( This is a large unit of work on the ethereum proof
+of stake chain ), This is a rolling attestation inclusion window and this what EIP-7045 does majorly by
+modifying the window. 
+
+![image](/src/content/docs/eips/protocol/consensus/images/image4.png)
+
+## What is EIP-7045?
+
+At its core, EIP-7045 was a proposal aimed at increasing the maximum attestation inclusion slot from
+attestation.slot + SLOTS_PER_EPOCH to the last epoch N + 1 where N is the epoch containing the attestation
+slot.
+
+It’s worth noting that this increase is critical to the current LMD-GHOST security analysis and confirmation
+rule.
+
+Let’s take a step back to find out the reason why the increase of attestation is such a big deal and this
+begs the question “ Why propose such EIP?”. The attestation process is of very high importance to the Ethereum
+community as it helps to maintain the integrity of the blockchain itself and helps in achieving consensus.
+Other importance of attestations include : Ensuring data authenticity, Ensuring consensus. 
+
+This proposal has no changes to the Execution Layer as it only affects the Consensus layer.
+
+## What makes an Attestation?
+
+An attestation contains three parts : 
+
+- `aggreation_bits` : This is a list of bits containing a single bit for each member of the committee. Each validator that participated in the aggregate signature is assigned a value of 1. They are ordered by the sort of the associated crosslink committee.
+
+- Data : This contains : the slot number, committee number, beacon_block_root, source and target.
+
+- A signature : This is a BLS(Boneh-Lynn-Shacham) signature that aggregates the signatures of individual validators.
+
+The Attestation data structure looks like this :
+
+```
+class Attestation(Container) :
+	          aggreation_bits : BItlist[MAX_VALIDATORS_PER_COMMITTEE]
+                      data : AttestationData
+	          signature : BLSSignature
+```
+
+After the building of data, the validator flips the aggregation_bits from 0 to 1 to show that they have
+participated, Finally the validator signs and broadcasts it to the network. To reduce the overhead associated
+with the broadcasting process within the network, all aggregations from individual validators are aggregated
+within a subnet before being broadcasted widely. A validator is selected as an aggregator - The aggregator is
+in charge of the collection of attestations it hears over the gossip network that has equivalent data to its
+own and broadcasts the attestation aggregate to a wider network. An aggregator is selected in each epoch.
+
+Validators are rewarded for submitting attestations, with the attestation reward dependent on two variables:
+the base reward and the inclusion delay. The base reward is calculated based on the number of attesting
+validators and their effective staked ether balances, while the inclusion delay refers to the number of
+slots it takes for an attestation to be included in a block. THe validators have a maximum of one epoch
+to submit an attestation and if it were not to be submitted, It would be included in the next epoch with
+the aid of an inclusion delay.
+
+## Consensus Layer 
+
+The specifications changes for EIP-7045 was built into the Consensus Specs Deneb Upgrade.
+This change made two changes to the state transition function and they are : 
+
+- Modify the `process_attestation` to not have an upper on the slot check and instead define the
+inclusion range via the minimum slot as well as the target epoch being in either current or previous epoch.
+
+- Modify `get_attestation_participation_flag_indices` to set the TIMELY_TARGET_FLAG without consideration of
+inclusion_delay to ensure that the extended inclusion attestations have a non-zero reward.
+
+Furthermore, This specification modifies the attestation and aggregate attestations gossip conditions to
+allow for gossip during the extended stage.
+
+## Comparison between Pre EIP-7045 and Post EIP-7045
+
+<u>Pre EIP-7045 : It has a bound of +1 to +32</u>
+
+![image](/src/content/docs/eips/protocol/consensus/images/image5.png)
+
+<u>Post EIP-7045 : The bound was removed</u>
+
+![image](/src/content/docs/eips/protocol/consensus/images/image6.png)
+
+NOTE : This  is a state transition function which there is a p2p gossip condition on what
+condition a node is allow to forward  these messages to its peers
+
+## Removal of inclusion_delay consideration for target reward
+
+Prior to the upgrade, The `get_attestation_participation_flag_indices` would only set the `TIMELY_TARGET_FLAG` 
+if the attestation was within a ``SLOTS_PER_EPOCH`. The `inclusion_delay`  was removed to ensure that whatever
+the valid inclusion is for an attestation, it will receive a non-zero reward. This will ensure that the clients
+will be eager to pack more attestations and this can be beneficial for security analysis.
+
+## Conclusion
+
+In conclusion, EIP-7045 is a very important proposal as it aims to increase the max attestation inclusion slot
+on the Ethereum blockchain, helps to increase the data authenticity of the chain, establishes consensus and
+makes for an efficient network. While it has its own challenges, it makes it possible for the increased security
+of the LMD-GHOST and brings about faster confirmation rules which further bring about new and exciting
+opportunities for UX and gives applications different decision points.
+
+Thanks for reading
