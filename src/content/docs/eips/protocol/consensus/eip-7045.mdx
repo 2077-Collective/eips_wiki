@@ -7,7 +7,7 @@ description: Increase max attestation inclusion slot
 Written by: {frontmatter.author}
 
 
-![image](/src/content/docs/eips/protocol/consensus/images/EIP-7045.webp)
+![image](https://res.cloudinary.com/dc2iz5j1c/image/upload/v1723076575/EIP-7045_yeao7p.webp)
 
 
 EIP-7045 is a proposal which increases the maximum inclusion slot for attestations from
@@ -50,7 +50,7 @@ pick who the head of the chain is and the subsequent circles shows that the vote
 the next block. Blocks reference their parents so the arrow points backward as time moves from left
 to right as the block are subsequent blocks.</u>
 
-![image](/src/content/docs/eips/protocol/consensus/images/image1.png)
+![image](https://res.cloudinary.com/dc2iz5j1c/image/upload/v1723076655/image1_j89ql2.png)
 
 ## Block tree
 
@@ -64,7 +64,7 @@ algorithm, etc. Ethereum PoS uses the combination of two algorithm and they are:
 
 - Friendly Finale Gathering ( FFG)  : This deals with finalizing checkpoints forever in history
 
-![image](/src/content/docs/eips/protocol/consensus/images/image2.png)
+![image](https://res.cloudinary.com/dc2iz5j1c/image/upload/v1723076694/image2_rfmh7c.png)
 
 LMD-GHOST for forkchoice uses a simple algorithm that takes these attestations where each assigns weight
 recursively to the branch so that we sum up the attestation to give the tip which then becomes the canonical
@@ -75,7 +75,7 @@ This is where FFG comes in as it gives the opportunity to finalize checkpoints i
 it cannot be changed and any chain that is not included is the finality is no longer “ fair game “ and this
 does not give room for LMD-GHOST re-org.
 
-![image](/src/content/docs/eips/protocol/consensus/images/images3.jpg)
+![image](https://res.cloudinary.com/dc2iz5j1c/image/upload/v1723076734/images3_tx9mfl.jpg)
 
 ## Attestation Inclusion Window 
 
@@ -86,7 +86,7 @@ these attestations can contain up to 32 slot( This is a large unit of work on th
 of stake chain ), This is a rolling attestation inclusion window and this what EIP-7045 does majorly by
 modifying the window. 
 
-![image](/src/content/docs/eips/protocol/consensus/images/image4.png)
+![image](https://res.cloudinary.com/dc2iz5j1c/image/upload/v1723076766/image4_g3mjm6.png)
 
 ## What is EIP-7045?
 
@@ -155,11 +155,11 @@ allow for gossip during the extended stage.
 
 <u>Pre EIP-7045 : It has a bound of +1 to +32</u>
 
-![image](/src/content/docs/eips/protocol/consensus/images/image5.png)
+![image](https://res.cloudinary.com/dc2iz5j1c/image/upload/v1723076831/image5_wgsuin.png)
 
 <u>Post EIP-7045 : The bound was removed</u>
 
-![image](/src/content/docs/eips/protocol/consensus/images/image6.png)
+![image](https://res.cloudinary.com/dc2iz5j1c/image/upload/v1723076861/image6_h6jrmg.png)
 
 NOTE : This  is a state transition function which there is a p2p gossip condition on what
 condition a node is allow to forward  these messages to its peers
