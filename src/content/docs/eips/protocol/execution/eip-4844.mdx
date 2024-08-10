@@ -59,7 +59,7 @@ The ZK rollup's prover constructs the validity proof using the blob data as priv
 The temporary nature of blob storage (pruned after about 18 days) aligns well with ZK rollups' needs, as once a validity proof is verified on L1, the underlying data is no longer necessary for the security of the system. This approach significantly reduces operational costs for ZK rollups, leading to lower fees for end-users while maintaining the strong security guarantees provided by zero-knowledge proofs.
 
 
-![image](/src/content/docs/eips/protocol/execution/images/image2.png)
+![image](https://res.cloudinary.com/dc2iz5j1c/image/upload/v1723271317/image2_brjnm8.png)
 ** _Two use cases of KZG_ **
 
 ## Blobs in Ethereum
@@ -72,7 +72,7 @@ EIP-4844 introduces a new transaction type called “blob-carrying transactions.
 1. **max_fee_per_blob_gas**: This sets the maximum fee the sender is willing to pay per unit of blob gas. Blob gas is separate from regular EVM gas and follows an EIP-1559-like pricing mechanism.
 2. **blob_versioned_hashes**: These are the versioned hashes of the blob commitments. The version is indicated by the first byte (currently 0×01), followed by the SHA256 hash of the commitment.
 
-![image](/src/content/docs/eips/protocol/execution/images/image3.png)
+![image](https://res.cloudinary.com/dc2iz5j1c/image/upload/v1723271357/image3_r8jir3.png)
 
 ## New Fields in the Block Header
 
@@ -82,7 +82,7 @@ EIP-4844 has added two new fields to the block header:
 
 Execution Layer uses these fields to validate the data related to new blob-carrying transactions in the blocks, introducing additional logic in the block validation workflow.
 
-![image](/src/content/docs/eips/protocol/execution/images/image4.png)
+![image](https://res.cloudinary.com/dc2iz5j1c/image/upload/v1723271434/image5_sd5xks.png)
 
 ## KZG Verification in the EVM
 
@@ -93,15 +93,14 @@ While the full blob data isn't stored in the EVM, the commitment's hash is. EIP-
 - The KZG proof (48 bytes)
 Totaling 192 bytes, this allows the EVM to verify the existence of specific data in a blob without accessing the entire blob. The versioned hash can be retrieved from the EVM using the newly added BLOBHASH opcode.
 
-![image](/src/content/docs/eips/protocol/execution/images/image5.png)
 
 ## Protocol Changes
 
 After EIP-4844, all nodes have to store all blobs in the block for 4096 epochs. In order to validate the block, nodes have to fetch all blobs P2P from the other nodes. To send a blob-carrying transaction in the network, it has to be wrapped into a packet that contains all necessary blobs, commitments, and blob proofs, to validate the block that will contain this transaction.
 
-![image](/src/content/docs/eips/protocol/execution/images/image6.png)
+![image](https://res.cloudinary.com/dc2iz5j1c/image/upload/v1723271473/image6_f24m7m.png)
 
-![image](/src/content/docs/eips/protocol/execution/images/image7.png)
+![image](https://res.cloudinary.com/dc2iz5j1c/image/upload/v1723271789/image7_qba5hj.png)
 
 ## Goals and Benefits of EIP-4844
 
