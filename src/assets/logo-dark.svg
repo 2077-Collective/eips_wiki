@@ -1,11 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="299px" height="581px" viewBox="0 0 299 581" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>Group 39 Copy</title>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Group-39-Copy" transform="translate(149.409120, 290.060445) scale(-1, 1) translate(-149.409120, -290.060445) " fill="#FFFFFF">
-            <polygon id="Path-71" points="2 40.0981786 42.9783919 3.36175592e-13 298.820263 256.101068 258.013265 296.120889"></polygon>
-            <polygon id="Path-71-Copy" points="2 188.098179 42.9783919 148 298.820263 404.101068 258.013265 444.120889"></polygon>
-            <polygon id="Path-71-Copy-2" points="-8.3611149e-12 324.098179 40.9783919 284 296.820263 540.101068 256.013265 580.120889"></polygon>
-        </g>
-    </g>
+<svg width="299" height="581" viewBox="0 0 299 581" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M296.818 40.0982L255.84 0L-0.00201416 256.101L40.805 296.121L296.818 40.0982Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M296.818 188.098L255.84 148L-0.00201416 404.101L40.805 444.121L296.818 188.098Z" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M298.818 324.098L257.84 284L1.99799 540.101L42.805 580.121L298.818 324.098Z" fill="white"/>
 </svg>
